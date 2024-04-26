@@ -43,7 +43,6 @@ public class EventManager {
         objectInteractions.put("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.");
         objectInteractions.put("rch", null); // Changes, dynamically returned in getObjectInteraction
         objectInteractions.put("tree", "Speak to the tree?");
-        objectInteractions.put("fishing", "Catch a fish?");
 
         // Some random topics that can be chatted about
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
@@ -54,17 +53,12 @@ public class EventManager {
         String[] args = eventKey.split("-");
 
         // Important functions, most likely called after displaying text
-        if (args[0] == "fadefromblack") {
+        if (args[0].equals("fadefromblack")) {
             fadeFromBlack();
-        } else if (args[0] == "fadetoblack") {
+        } else if (args[0].equals("fadetoblack")) {
             fadeToBlack();
-        } else if (args[0] == "gameover") {
+        } else if (args[0].equals("gameover")) {
             game.GameOver();
-        }
-
-        if (eventKey.equals("fishing")) {
-            fishingEvent();
-            return;
         }
 
         // Events related to objects
@@ -140,15 +134,6 @@ public class EventManager {
     public void objectEvent(String object) {
         game.dialogueBox.hideSelectBox();
         game.dialogueBox.setText("This is a " +  object + "!");
-    }
-
-    /**
-     * Lets the player catch a fish!
-     */
-    public void fishingEvent() {
-        game.dialogueBox.show();
-        game.dialogueBox.setText("You caught a fish!");
-        game.decreaseEnergy(20);
     }
 
     /**
