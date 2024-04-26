@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameOverScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tests</a> &gt; <a href="index.source.html" class="el_package">com.skloch.game</a> &gt; <span class="el_source">GameOverScreen.java</span></div><h1>GameOverScreen.java</h1><pre class="source lang-java linenums">package com.skloch.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
+import java.awt.*;
+
+/**
+ * A screen that displays the player's stats at the end of the game.
+ * Currently doesn't calculate a score
+ */
+public class GameOverScreen implements Screen {
+    private HustleGame game;
+    Stage gameOverStage;
+    Viewport viewport;
+    OrthographicCamera camera;
+
+    /**
+     * A screen to display a 'Game Over' screen when the player finishes their exams
+     * Currently does not calculate a score, just shows the player's stats to them, as requested in assessment 1
+     * Tracking them now will make win conditions easier to implement for assessment 2
+     *
+     * @param game An instance of HustleGame
+     * @param hoursStudied The hours studied in the playthrough
+     * @param hoursRecreational The hours of fun had in the playthrough
+     * @param hoursSlept The hours slept in the playthrough
+     */
+<span class="nc" id="L39">    public GameOverScreen (final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept) {</span>
+<span class="nc" id="L40">        this.game = game;</span>
+<span class="nc" id="L41">        gameOverStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));</span>
+<span class="nc" id="L42">        Gdx.input.setInputProcessor(gameOverStage);</span>
+
+<span class="nc" id="L44">        camera = new OrthographicCamera();</span>
+<span class="nc" id="L45">        viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);</span>
+<span class="nc" id="L46">        camera.setToOrtho(false, game.WIDTH, game.HEIGHT);</span>
+
+        // Create the window
+<span class="nc" id="L49">        Window gameOverWindow = new Window(&quot;&quot;, game.skin);</span>
+<span class="nc" id="L50">        gameOverStage.addActor(gameOverWindow);</span>
+
+        // Table for UI elements in window
+<span class="nc" id="L53">        Table gameOverTable = new Table();</span>
+<span class="nc" id="L54">        gameOverWindow.add(gameOverTable);</span>
+
+        // Title
+<span class="nc" id="L57">        Label title = new Label(&quot;Game Over!&quot;, game.skin, &quot;button&quot;);</span>
+<span class="nc" id="L58">        gameOverTable.add(title).padTop(10);</span>
+<span class="nc" id="L59">        gameOverTable.row();</span>
+
+<span class="nc" id="L61">        Table scoresTable = new Table();</span>
+<span class="nc" id="L62">        gameOverTable.add(scoresTable).prefHeight(380).prefWidth(450);</span>
+<span class="nc" id="L63">        gameOverTable.row();</span>
+
+        // Display scores
+<span class="nc" id="L66">        scoresTable.add(new Label(&quot;Hours Studied&quot;, game.skin, &quot;interaction&quot;)).padBottom(5);</span>
+<span class="nc" id="L67">        scoresTable.row();</span>
+<span class="nc" id="L68">        scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, &quot;button&quot;)).padBottom(20);</span>
+<span class="nc" id="L69">        scoresTable.row();</span>
+<span class="nc" id="L70">        scoresTable.add(new Label(&quot;Recreational hours&quot;, game.skin, &quot;interaction&quot;)).padBottom(5);</span>
+<span class="nc" id="L71">        scoresTable.row();</span>
+<span class="nc" id="L72">        scoresTable.add(new Label(String.valueOf(hoursRecreational), game.skin, &quot;button&quot;)).padBottom(20);</span>
+<span class="nc" id="L73">        scoresTable.row();</span>
+<span class="nc" id="L74">        scoresTable.add(new Label(&quot;Hours Slept&quot;, game.skin, &quot;interaction&quot;)).padBottom(5);</span>
+<span class="nc" id="L75">        scoresTable.row();</span>
+<span class="nc" id="L76">        scoresTable.add(new Label(String.valueOf(hoursSlept), game.skin, &quot;button&quot;));</span>
+
+
+        // Exit button
+<span class="nc" id="L80">        TextButton exitButton = new TextButton(&quot;Main Menu&quot;, game.skin);</span>
+<span class="nc" id="L81">        gameOverTable.add(exitButton).bottom().width(300).padTop(10);</span>
+
+<span class="nc" id="L83">        exitButton.addListener(new ChangeListener() {</span>
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+<span class="nc" id="L86">                game.soundManager.playButton();</span>
+<span class="nc" id="L87">                game.soundManager.overworldMusic.stop();</span>
+<span class="nc" id="L88">                dispose();</span>
+<span class="nc" id="L89">                game.setScreen(new MenuScreen(game));</span>
+<span class="nc" id="L90">            }</span>
+        });
+
+
+
+
+<span class="nc" id="L96">        gameOverWindow.pack();</span>
+
+<span class="nc" id="L98">        gameOverWindow.setSize(600, 600);</span>
+
+        // Centre the window
+<span class="nc" id="L101">        gameOverWindow.setX((viewport.getWorldWidth() / 2) - (gameOverWindow.getWidth() / 2));</span>
+<span class="nc" id="L102">        gameOverWindow.setY((viewport.getWorldHeight() / 2) - (gameOverWindow.getHeight() / 2));</span>
+<span class="nc" id="L103">    }</span>
+
+
+    /**
+     * Renders the screen and the background each frame
+     * @param delta The time in seconds since the last render.
+     */
+    @Override
+    public void render(float delta) {
+<span class="nc" id="L112">        ScreenUtils.clear(0, 0, 0, 1);</span>
+
+<span class="nc" id="L114">        game.blueBackground.draw();</span>
+
+<span class="nc" id="L116">        gameOverStage.act(delta);</span>
+<span class="nc" id="L117">        gameOverStage.draw();</span>
+
+<span class="nc" id="L119">        camera.update();</span>
+
+<span class="nc" id="L121">    }</span>
+
+
+
+    /**
+     * Correctly resizes the onscreen elements when the window is resized
+     * @param width
+     * @param height
+     */
+    @Override
+    public void resize(int width, int height) {
+<span class="nc" id="L132">        gameOverStage.getViewport().update(width, height);</span>
+<span class="nc" id="L133">        viewport.update(width, height);</span>
+<span class="nc" id="L134">    }</span>
+
+    // Other required methods from Screen
+    @Override
+    public void show() {
+<span class="nc" id="L139">    }</span>
+
+    @Override
+    public void hide() {
+<span class="nc" id="L143">    }</span>
+
+    @Override
+    public void pause() {
+<span class="nc" id="L147">    }</span>
+
+    @Override
+    public void resume() {
+<span class="nc" id="L151">    }</span>
+
+    @Override
+    public void dispose() {
+<span class="nc" id="L155">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
