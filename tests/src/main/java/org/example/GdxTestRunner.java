@@ -1,4 +1,4 @@
-package com.skloch.tests;
+package org.example;
 
 import java.util.HashMap;
 import java.util.Map;

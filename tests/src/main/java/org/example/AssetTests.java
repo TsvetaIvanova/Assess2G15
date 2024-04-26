@@ -1,4 +1,4 @@
-package com.skloch.tests;
+package org.example;
 import com.skloch.game.*;
 
 import com.badlogic.gdx.Gdx;

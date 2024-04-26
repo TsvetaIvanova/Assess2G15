@@ -1,4 +1,4 @@
-package com.skloch.tests;
+package org.example;
 import com.skloch.game.GameScreen;
 import com.skloch.game.HustleGame;
 
