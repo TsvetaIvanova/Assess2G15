@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Align;
  * @deprecated Creates a small window to recieve a yes/no response from the player
  * No longer used, but the code may still be useful
  */
-@Deprecated
 public class OptionDialogue {
     private Window window;
     public Label questionLabel;
@@ -35,7 +34,6 @@ public class OptionDialogue {
      * @param skin The game skin to use
      * @param soundManager An instance of soundManager to play sounds
      */
-    @Deprecated
     public OptionDialogue (String question, int width, Skin skin, SoundManager soundManager) {
         // Create an option dialogue to prompt the player for an input
         // Attempted to make it as adaptable as possible
