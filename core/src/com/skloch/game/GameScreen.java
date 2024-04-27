@@ -34,6 +34,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
  * Responsible for rendering the player and the map, and calling events.
  */
 public class GameScreen implements Screen {
+    public static final String IMAGE_ENERGY_BAR = "Interface/Energy Bar/green_bar.png";
+    public static final String IMAGE_ENERGY_BAR_OUTLINE = "Interface/Energy Bar/bar_outline.png";
     final HustleGame game;
     private OrthographicCamera camera;
     private int energy = 100;
@@ -133,8 +135,8 @@ public class GameScreen implements Screen {
         // Load energy bar elements
         Group energyGroup = new Group();
         energyGroup.setDebug(true);
-        energyBar = new Image(new Texture(Gdx.files.internal("Interface/Energy Bar/green_bar.png")));
-        Image energyBarOutline = new Image(new Texture(Gdx.files.internal("Interface/Energy Bar/bar_outline.png")));
+        energyBar = new Image(new Texture(Gdx.files.internal(IMAGE_ENERGY_BAR)));
+        Image energyBarOutline = new Image(new Texture(Gdx.files.internal(IMAGE_ENERGY_BAR_OUTLINE)));
         energyBarOutline.setPosition(viewport.getWorldWidth()-energyBarOutline.getWidth() - 15, 15);
         energyBar.setPosition(energyBarOutline.getX()+16, energyBarOutline.getY()+16);
         energyGroup.addActor(energyBar);
