@@ -40,7 +40,7 @@ public class EventManager {
         objectInteractions.put("chest", "Open the chest?");
         objectInteractions.put("comp_sci", "Study in the Computer Science building?");
         objectInteractions.put("piazza", "Meet your friends at the Piazza?");
-        objectInteractions.put("accommodation", "Go to sleep for the night?\nYour alarm is set for 8am.");
+        objectInteractions.put("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.");
         objectInteractions.put("rch", null); // Changes, dynamically returned in getObjectInteraction
         objectInteractions.put("tree", "Speak to the tree?");
         objectInteractions.put("fishing", "Catch a fish?");
@@ -84,7 +84,7 @@ public class EventManager {
             case "rch":
                 ronCookeEvent(args);
                 break;
-            case "accommodation":
+            case "accomodation":
                 accomEvent(args);
                 break;
             case "exit":
