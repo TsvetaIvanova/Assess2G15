@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -16,8 +15,6 @@ public class EventManager {
     public HashMap<String, Integer> activityEnergies;
     private final HashMap<String, String> objectInteractions;
     private final Array<String> talkTopics;
-
-    private HashSet<String> dailyActivities;
 
     /**
      * A class that maps Object's event strings to actual Java functions.
@@ -150,24 +147,12 @@ public class EventManager {
     /**
      * Lets the player catch a fish! Who knows what creatures lurk beneath...
      */
-//    public void fishingEvent() {
-//        game.dialogueBox.show();
-//        game.dialogueBox.setText("You caught a fish!");
-//        game.decreaseEnergy(20);
-//    }
-
-
-    /**
-     * the fishing is only done if the player has enough energy, the time is then progressed(which is our scoring method, 1 hour added) and the activity is checked
-     * to ensure the player performed enough different unique recreational activities, if the player does not have enough energy
-     * they are not able to do the activity and are forced to sleep
-     */
-
     public void fishingEvent() {
         if (game.getEnergy() >= 20) {
             game.dialogueBox.show();
             game.dialogueBox.setText("You caught a fish!");
-            game.decreaseEnergy(20);
+            ScoreManager.dayRecreationScore[2]++;
+            game.decreaseEnergy(10);
             game.passTime(60);
             game.addRecreationalHours(1);
             game.addDailyActivity("fishing");
@@ -176,26 +161,15 @@ public class EventManager {
         }
     }
 
-
     /**
      * Lets the player feed the ducks
-     */
-//    public void duckEvent() {
-//        game.dialogueBox.show();
-//        game.dialogueBox.setText("You fed the ducks!");
-//        game.decreaseEnergy(10);
-//    }
-
-    /**
-     * the ducks is only done if the player has enough energy, the time is then progressed(which is our scoring method, 1 hour added) and the activity is checked
-     * to ensure the player performed enough different unique recreational activities, if the player does not have enough energy
-     * they are not able to do the activity and are forced to sleep
      */
     public void duckEvent() {
         int energyCost = activityEnergies.getOrDefault("ducks", 10);
         if (game.getEnergy() >= energyCost) {
             game.dialogueBox.show();
             game.dialogueBox.setText("You fed the ducks!");
+            ScoreManager.dayRecreationScore[1]++;
             game.decreaseEnergy(energyCost);
             game.passTime(30);
             game.addRecreationalHours(1);
@@ -228,6 +202,7 @@ public class EventManager {
                 // RNG factor adds a slight difficulty (may consume too much energy to study)
                 int hours = ThreadLocalRandom.current().nextInt(1, 4);
                 game.dialogueBox.setText(String.format("You talked about %s for %d hours!", args[1].toLowerCase(), hours));
+                ScoreManager.dayRecreationScore[0]++;
                 game.decreaseEnergy(energyCost * hours);
                 game.passTime(hours * 60); // in seconds
                 game.addRecreationalHours(hours);
@@ -235,7 +210,6 @@ public class EventManager {
         } else {
             game.dialogueBox.setText("It's too early in the morning to meet your friends, go to bed!");
         }
-        game.addDailyActivity("piazza");
     }
 
     /**
@@ -306,6 +280,17 @@ public class EventManager {
                 game.dialogueBox.setText("You are too tired to eat right now!");
             } else {
                 game.dialogueBox.setText(String.format("You took an hour to eat %s at the Ron Cooke Hub!\nYou lost %d energy!", game.getMeal(), energyCost));
+
+                if(game.getMeal().contains("breakfast")){
+                    ScoreManager.dayEatScore[0] += 1;
+                }
+                else if(game.getMeal().equals("lunch")){
+                    ScoreManager.dayEatScore[1] += 1;
+                }
+                else if(game.getMeal().equals("dinner")){
+                    ScoreManager.dayEatScore[2] += 1;
+                }
+
                 game.decreaseEnergy(energyCost);
                 game.passTime(60); // in seconds
             }
@@ -351,6 +336,13 @@ public class EventManager {
                 }
             }
         });
+
+        for(int i = 0; i < ScoreManager.dayRecreationScore.length; i++){
+            System.out.println(ScoreManager.dayRecreationScore[i]);
+        }
+        ScoreManager.updateEatScore();
+        ScoreManager.updateRecreationScore();
+        System.out.println(ScoreManager.getTotalRecreationScore());
 
         fadeToBlack(setTextAction);
     }
