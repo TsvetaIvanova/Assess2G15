@@ -76,17 +76,19 @@ public class GameOverScreen implements Screen {
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(20);
+        scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(10);
         scoresTable.row();
-        scoresTable.add(new Label("Recreational score", game.skin, "interaction")).padBottom(5);
+        scoresTable.add(new Label("Recreational Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(20);
+        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(10);
         scoresTable.row();
         scoresTable.add(new Label("Hours Slept", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursSlept), game.skin, "button"));
-
-
+        scoresTable.add(new Label(String.valueOf(hoursSlept), game.skin, "button")).padBottom(10);
+        scoresTable.row();
+        scoresTable.add(new Label("Eating Score", game.skin, "interaction")).padBottom(5);
+        scoresTable.row();
+        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
 
         // Exit button
         TextButton exitButton = new TextButton("Main Menu", game.skin);
