@@ -67,9 +67,9 @@ public class GameOverScreen implements Screen {
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(20);
         scoresTable.row();
-        scoresTable.add(new Label("Recreational hours", game.skin, "interaction")).padBottom(5);
+        scoresTable.add(new Label("Recreational score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursRecreational), game.skin, "button")).padBottom(20);
+        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(20);
         scoresTable.row();
         scoresTable.add(new Label("Hours Slept", game.skin, "interaction")).padBottom(5);
         scoresTable.row();

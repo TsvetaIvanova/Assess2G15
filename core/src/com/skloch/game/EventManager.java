@@ -150,7 +150,8 @@ public class EventManager {
     public void fishingEvent() {
         game.dialogueBox.show();
         game.dialogueBox.setText("You caught a fish!");
-        game.decreaseEnergy(20);
+        ScoreManager.dayRecreationScore[2]++;
+        game.decreaseEnergy(10);
     }
 
     /**
@@ -159,6 +160,7 @@ public class EventManager {
     public void duckEvent() {
         game.dialogueBox.show();
         game.dialogueBox.setText("You fed the ducks!");
+        ScoreManager.dayRecreationScore[1]++;
         game.decreaseEnergy(10);
     }
 
@@ -185,6 +187,7 @@ public class EventManager {
                 // RNG factor adds a slight difficulty (may consume too much energy to study)
                 int hours = ThreadLocalRandom.current().nextInt(1, 4);
                 game.dialogueBox.setText(String.format("You talked about %s for %d hours!", args[1].toLowerCase(), hours));
+                ScoreManager.dayRecreationScore[0]++;
                 game.decreaseEnergy(energyCost * hours);
                 game.passTime(hours * 60); // in seconds
                 game.addRecreationalHours(hours);
@@ -262,8 +265,20 @@ public class EventManager {
                 game.dialogueBox.setText("You are too tired to eat right now!");
             } else {
                 game.dialogueBox.setText(String.format("You took an hour to eat %s at the Ron Cooke Hub!\nYou lost %d energy!", game.getMeal(), energyCost));
+
+                if(game.getMeal().contains("breakfast")){
+                    ScoreManager.dayEatScore[0] += 1;
+                }
+                else if(game.getMeal().equals("lunch")){
+                    ScoreManager.dayEatScore[1] += 1;
+                }
+                else if(game.getMeal().equals("dinner")){
+                    ScoreManager.dayEatScore[2] += 1;
+                }
+
                 game.decreaseEnergy(energyCost);
                 game.passTime(60); // in seconds
+
             }
         } else {
             game.dialogueBox.setText("It's too early in the morning to eat food, go to bed!");
@@ -307,6 +322,13 @@ public class EventManager {
                 }
             }
         });
+
+        for(int i = 0; i < ScoreManager.dayRecreationScore.length; i++){
+            System.out.println(ScoreManager.dayRecreationScore[i]);
+        }
+        ScoreManager.updateEatScore();
+        ScoreManager.updateRecreationScore();
+        System.out.println(ScoreManager.getTotalRecreationScore());
 
         fadeToBlack(setTextAction);
     }
