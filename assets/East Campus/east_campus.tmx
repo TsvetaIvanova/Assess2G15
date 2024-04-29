@@ -1439,27 +1439,27 @@ Coming soon!</property>
   </object>
   <object id="174" x="1176" y="1824" width="144" height="168">
    <properties>
-    <property name="event" value="accomodation"/>
+    <property name="event" value="accommodation"/>
    </properties>
   </object>
   <object id="176" x="1248" y="1800" width="120" height="168">
    <properties>
-    <property name="event" value="accomodation"/>
+    <property name="event" value="accommodation"/>
    </properties>
   </object>
   <object id="177" x="1296" y="1776" width="120" height="168">
    <properties>
-    <property name="event" value="accomodation"/>
+    <property name="event" value="accommodation"/>
    </properties>
   </object>
   <object id="178" x="1368" y="1752" width="96" height="168">
    <properties>
-    <property name="event" value="accomodation"/>
+    <property name="event" value="accommodation"/>
    </properties>
   </object>
   <object id="179" x="1416" y="1728" width="120" height="168">
    <properties>
-    <property name="event" value="accomodation"/>
+    <property name="event" value="accommodation"/>
    </properties>
   </object>
   <object id="180" x="1464" y="1968" width="24" height="24">
