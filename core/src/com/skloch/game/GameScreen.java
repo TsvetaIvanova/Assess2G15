@@ -29,6 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import java.util.HashSet;
+
 /**
  * Handles the majority of the game logic, rendering and user inputs of the game.
  * Responsible for rendering the player and the map, and calling events.
@@ -58,6 +60,12 @@ public class GameScreen implements Screen {
     public final Image blackScreen;
     private boolean sleeping = false;
 
+    private final HashSet<String> dailyActivities = new HashSet<>();
+
+
+    public void addDailyActivity(String activity) {
+        dailyActivities.add(activity);
+    }
 
     /**
      *
@@ -248,6 +256,12 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render (float delta) {
+        if (daySeconds >= 1440) { // End of the day
+            evaluateRecreationalActivities();
+            daySeconds -= 1440;
+            day += 1;
+            dailyActivities.clear(); // Reset for the new day
+        }
         // Clear screen
         ScreenUtils.clear(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -487,6 +501,17 @@ public class GameScreen implements Screen {
     public void dispose () {
         uiStage.dispose();
         mapRenderer.dispose();
+    }
+
+
+    private void evaluateRecreationalActivities() {
+        int bonus = 0;
+        if (dailyActivities.size() == 2) {
+            bonus = 2;
+        } else if (dailyActivities.size() > 2) {
+            bonus = 1;
+        }
+        hoursRecreational += bonus; // Adjust score accordingly
     }
 
     /**
