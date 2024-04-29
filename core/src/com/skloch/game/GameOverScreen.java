@@ -75,7 +75,7 @@ public class GameOverScreen implements Screen {
         }
 
         // Calculating the overall score
-        int overallScore = (int) (hoursStudied + ScoreManager.getTotalRecreationScore() + hoursSlept + ScoreManager.getTotalEatScore());
+        int finalScore = (int) (hoursStudied + ScoreManager.getTotalRecreationScore() + ScoreManager.getTotalEatScore());
 
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
@@ -90,9 +90,9 @@ public class GameOverScreen implements Screen {
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
         scoresTable.row();
-        scoresTable.add(new Label("Overall Score", game.skin, "interaction")).padBottom(5);
+        scoresTable.add(new Label("Final Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(overallScore), game.skin, "button")).padBottom(10);
+        scoresTable.add(new Label(String.valueOf(finalScore), game.skin, "button")).padBottom(10);
 
         // Exit button
         TextButton exitButton = new TextButton("Main Menu", game.skin);
