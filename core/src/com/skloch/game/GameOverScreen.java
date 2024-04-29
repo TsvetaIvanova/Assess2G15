@@ -62,8 +62,19 @@ public class GameOverScreen implements Screen {
         gameOverTable.add(scoresTable).prefHeight(380).prefWidth(450);
         gameOverTable.row();
 
+        String studyMessage;
+        if (hoursStudied >= 8 && hoursStudied <= 10) {
+            hoursStudied *= 2;
+            studyMessage = "You studied enough!";
+        } else if (hoursStudied > 10) {
+            hoursStudied /= 2;
+            studyMessage = "You overworked!";
+        } else {
+            studyMessage = "You did not study enough!";
+        }
+
         // Display scores
-        scoresTable.add(new Label("Hours Studied", game.skin, "interaction")).padBottom(5);
+        scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(20);
         scoresTable.row();
@@ -74,6 +85,7 @@ public class GameOverScreen implements Screen {
         scoresTable.add(new Label("Hours Slept", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(hoursSlept), game.skin, "button"));
+
 
 
         // Exit button

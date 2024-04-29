@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -15,6 +16,8 @@ public class EventManager {
     public HashMap<String, Integer> activityEnergies;
     private final HashMap<String, String> objectInteractions;
     private final Array<String> talkTopics;
+
+    private HashSet<String> dailyActivities;
 
     /**
      * A class that maps Object's event strings to actual Java functions.
@@ -147,19 +150,59 @@ public class EventManager {
     /**
      * Lets the player catch a fish! Who knows what creatures lurk beneath...
      */
+//    public void fishingEvent() {
+//        game.dialogueBox.show();
+//        game.dialogueBox.setText("You caught a fish!");
+//        game.decreaseEnergy(20);
+//    }
+
+
+    /**
+     * the fishing is only done if the player has enough energy, the time is then progressed(which is our scoring method, 1 hour added) and the activity is checked
+     * to ensure the player performed enough different unique recreational activities, if the player does not have enough energy
+     * they are not able to do the activity and are forced to sleep
+     */
+
     public void fishingEvent() {
-        game.dialogueBox.show();
-        game.dialogueBox.setText("You caught a fish!");
-        game.decreaseEnergy(20);
+        if (game.getEnergy() >= 20) {
+            game.dialogueBox.show();
+            game.dialogueBox.setText("You caught a fish!");
+            game.decreaseEnergy(20);
+            game.passTime(60);
+            game.addRecreationalHours(1);
+            game.addDailyActivity("fishing");
+        } else {
+            game.dialogueBox.setText("You're too tired to fish right now!");
+        }
     }
+
 
     /**
      * Lets the player feed the ducks
      */
+//    public void duckEvent() {
+//        game.dialogueBox.show();
+//        game.dialogueBox.setText("You fed the ducks!");
+//        game.decreaseEnergy(10);
+//    }
+
+    /**
+     * the ducks is only done if the player has enough energy, the time is then progressed(which is our scoring method, 1 hour added) and the activity is checked
+     * to ensure the player performed enough different unique recreational activities, if the player does not have enough energy
+     * they are not able to do the activity and are forced to sleep
+     */
     public void duckEvent() {
-        game.dialogueBox.show();
-        game.dialogueBox.setText("You fed the ducks!");
-        game.decreaseEnergy(10);
+        int energyCost = activityEnergies.getOrDefault("ducks", 10);
+        if (game.getEnergy() >= energyCost) {
+            game.dialogueBox.show();
+            game.dialogueBox.setText("You fed the ducks!");
+            game.decreaseEnergy(energyCost);
+            game.passTime(30);
+            game.addRecreationalHours(1);
+            game.addDailyActivity("ducks");
+        } else {
+            game.dialogueBox.setText("You're too tired to feed the ducks right now!");
+        }
     }
 
     /**
@@ -192,6 +235,7 @@ public class EventManager {
         } else {
             game.dialogueBox.setText("It's too early in the morning to meet your friends, go to bed!");
         }
+        game.addDailyActivity("piazza");
     }
 
     /**
