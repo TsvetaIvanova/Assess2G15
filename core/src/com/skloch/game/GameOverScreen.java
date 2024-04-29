@@ -62,6 +62,7 @@ public class GameOverScreen implements Screen {
         gameOverTable.add(scoresTable).prefHeight(380).prefWidth(450);
         gameOverTable.row();
 
+        // defining what are reasonable study patterns
         String studyMessage;
         if (hoursStudied >= 8 && hoursStudied <= 10) {
             hoursStudied *= 2;
@@ -73,6 +74,9 @@ public class GameOverScreen implements Screen {
             studyMessage = "You did not study enough!";
         }
 
+        // Calculating the overall score
+        int overallScore = (int) (hoursStudied + ScoreManager.getTotalRecreationScore() + hoursSlept + ScoreManager.getTotalEatScore());
+
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
         scoresTable.row();
@@ -82,13 +86,13 @@ public class GameOverScreen implements Screen {
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(10);
         scoresTable.row();
-        scoresTable.add(new Label("Hours Slept", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursSlept), game.skin, "button")).padBottom(10);
-        scoresTable.row();
         scoresTable.add(new Label("Eating Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
+        scoresTable.row();
+        scoresTable.add(new Label("Overall Score", game.skin, "interaction")).padBottom(5);
+        scoresTable.row();
+        scoresTable.add(new Label(String.valueOf(overallScore), game.skin, "button")).padBottom(10);
 
         // Exit button
         TextButton exitButton = new TextButton("Main Menu", game.skin);
