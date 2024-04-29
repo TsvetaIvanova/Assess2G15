@@ -40,10 +40,11 @@ public class EventManager {
         objectInteractions.put("chest", "Open the chest?");
         objectInteractions.put("comp_sci", "Study in the Computer Science building?");
         objectInteractions.put("piazza", "Meet your friends at the Piazza?");
-        objectInteractions.put("accommodation", "Go to sleep for the night?\nYour alarm is set for 8am.");
+        objectInteractions.put("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.");
         objectInteractions.put("rch", null); // Changes, dynamically returned in getObjectInteraction
         objectInteractions.put("tree", "Speak to the tree?");
         objectInteractions.put("fishing", "Catch a fish?");
+        objectInteractions.put("ducks", "Feed the ducks?");
 
         // Some random topics that can be chatted about
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
@@ -60,11 +61,6 @@ public class EventManager {
             fadeToBlack();
         } else if (args[0] == "gameover") {
             game.GameOver();
-        }
-
-        if (eventKey.equals("fishing")) {
-            fishingEvent();
-            return;
         }
 
         // Events related to objects
@@ -84,12 +80,18 @@ public class EventManager {
             case "rch":
                 ronCookeEvent(args);
                 break;
-            case "accommodation":
+            case "accomodation":
                 accomEvent(args);
                 break;
             case "exit":
                 // Should do nothing and just close the dialogue menu
                 game.dialogueBox.hide();
+                break;
+            case "ducks":
+                duckEvent();
+                break;
+            case "fishing":
+                fishingEvent();
                 break;
             default:
                 objectEvent(eventKey);
@@ -143,12 +145,21 @@ public class EventManager {
     }
 
     /**
-     * Lets the player catch a fish!
+     * Lets the player catch a fish! Who knows what creatures lurk beneath...
      */
     public void fishingEvent() {
         game.dialogueBox.show();
         game.dialogueBox.setText("You caught a fish!");
         game.decreaseEnergy(20);
+    }
+
+    /**
+     * Lets the player feed the ducks
+     */
+    public void duckEvent() {
+        game.dialogueBox.show();
+        game.dialogueBox.setText("You fed the ducks!");
+        game.decreaseEnergy(10);
     }
 
     /**
