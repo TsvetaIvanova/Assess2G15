@@ -55,7 +55,7 @@ public class GameOverScreen implements Screen {
 
         // Title
         Label title = new Label("Game Over!", game.skin, "button");
-        gameOverTable.add(title).padTop(10);
+        gameOverTable.add(title).padTop(30);
         gameOverTable.row();
 
         Table scoresTable = new Table();
@@ -82,21 +82,22 @@ public class GameOverScreen implements Screen {
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(10);
         scoresTable.row();
-        scoresTable.add(new Label("Recreational Score", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(10);
-        scoresTable.row();
-        scoresTable.add(new Label("Eating Score", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
-        scoresTable.row();
+        //scoresTable.add(new Label("Recreational Score", game.skin, "interaction")).padBottom(5);
+        //scoresTable.row();
+        //scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(10);
+        //scoresTable.row();
+        //scoresTable.add(new Label("Eating Score", game.skin, "interaction")).padBottom(5);
+        //scoresTable.row();
+        //scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
+        //scoresTable.row();
         scoresTable.add(new Label("Final Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(finalScore), game.skin, "button")).padBottom(10);
 
         // Exit button
         TextButton exitButton = new TextButton("Main Menu", game.skin);
-        gameOverTable.add(exitButton).bottom().width(300).padTop(10);
+        gameOverTable.add(exitButton).width(300).padTop(10);
+        gameOverTable.row();
 
         exitButton.addListener(new ChangeListener() {
             @Override
@@ -108,7 +109,19 @@ public class GameOverScreen implements Screen {
             }
         });
 
+        //Leaderboard button
+        TextButton leaderboardButton = new TextButton("Leaderboard", game.skin);
+        gameOverTable.add(leaderboardButton).bottom().width(300).padTop(10);
 
+        leaderboardButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.soundManager.playButton();
+                game.soundManager.overworldMusic.stop();
+                dispose();
+                game.setScreen(new LeaderboardScreen(game, finalScore));
+            }
+        });
 
 
         gameOverWindow.pack();
@@ -118,6 +131,8 @@ public class GameOverScreen implements Screen {
         // Centre the window
         gameOverWindow.setX((viewport.getWorldWidth() / 2) - (gameOverWindow.getWidth() / 2));
         gameOverWindow.setY((viewport.getWorldHeight() / 2) - (gameOverWindow.getHeight() / 2));
+
+
     }
 
 
