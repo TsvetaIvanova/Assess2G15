@@ -4,11 +4,13 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 11
@@ -16,11 +18,13 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+        
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
       with:
         arguments: build
         build-root-directory: gradle
+        
     - name: Build with Gradle Wrapper
       run: cd gradle/wrapper && ./gradlew build
 
