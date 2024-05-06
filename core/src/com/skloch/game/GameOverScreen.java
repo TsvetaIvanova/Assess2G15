@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * A screen that displays the player's stats at the end of the game.
@@ -70,8 +71,12 @@ public class GameOverScreen implements Screen {
         } else if (hoursStudied > 10) {
             hoursStudied /= 2;
             studyMessage = "You overworked!";
-        } else {
+        } else{
             studyMessage = "You did not study enough!";
+        }
+        if(Arrays.stream(game.gameScreen.daysStudied).anyMatch(x -> x == 0)){
+            studyMessage = "You missed a day of studying!";
+            hoursStudied = 0;
         }
 
         // Calculating the overall score
