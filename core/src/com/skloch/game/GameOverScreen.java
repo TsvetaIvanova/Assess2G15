@@ -21,6 +21,7 @@ import java.awt.*;
  * Currently doesn't calculate a score
  */
 public class GameOverScreen implements Screen {
+
     private HustleGame game;
     Stage gameOverStage;
     Viewport viewport;
@@ -38,6 +39,15 @@ public class GameOverScreen implements Screen {
      */
     public GameOverScreen (final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept) {
         this.game = game;
+
+        // Streaks definitions
+
+        boolean isBookworm = hoursStudied >= 7 && hoursStudied < 10;
+
+        boolean isDuckDuckGo = GameScreen.duckFeeds >= 5;
+
+        boolean isBestFisher = GameScreen.fishCaught >= 5;
+
         gameOverStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
         Gdx.input.setInputProcessor(gameOverStage);
 
@@ -49,14 +59,67 @@ public class GameOverScreen implements Screen {
         Window gameOverWindow = new Window("", game.skin);
         gameOverStage.addActor(gameOverWindow);
 
+        // Create the window
+        Window achievementsWindow = new Window("", game.skin);
+        achievementsWindow.setSize(300, 300); // Make this window smaller
+        achievementsWindow.setPosition(gameOverWindow.getX() - achievementsWindow.getWidth() - 20, gameOverWindow.getY());
+        gameOverStage.addActor(achievementsWindow);
+
         // Table for UI elements in window
         Table gameOverTable = new Table();
         gameOverWindow.add(gameOverTable);
+
+        // Table for UI elements in window
+        Table achievementsTable = new Table();
+        achievementsTable.top(); // Ensure the title and items align to the top of the window
+        achievementsWindow.add(achievementsTable);
+        achievementsTable.setFillParent(true);
 
         // Title
         Label title = new Label("Game Over!", game.skin, "button");
         gameOverTable.add(title).padTop(30);
         gameOverTable.row();
+
+        // Achievements table title set up
+        Label.LabelStyle style = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
+        Label achievementsTitle = new Label("Achievements!", style);
+        achievementsTitle.setFontScale(0.8f);
+        achievementsTable.add(achievementsTitle).padTop(35).center().expand().fill();
+        achievementsTable.row();
+
+
+//        Table achievementsScoresTable = new Table();
+//        achievementsTable.add(achievementsScoresTable).prefHeight(300).prefWidth(300);
+//        achievementsTable.add(achievementsScoresTable).expand().fill();
+//        achievementsTable.row();
+
+        // Achievements scores table setup
+
+
+        // Set font scale for achievement descriptions
+        Label.LabelStyle descriptionStyle = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
+        descriptionStyle.font.getData().setScale(0.65f);  // Decrease the font scale
+
+        // Populate the table with achievements
+        if (isBestFisher) {
+            Label bestFisherLabel = new Label("BestFisher: Yayy, you caught enough fish to give to your friends!", descriptionStyle);
+            bestFisherLabel.setWrap(true);
+            achievementsTable.add(bestFisherLabel).padBottom(40).width(290).row();  // Set width to fit within the window
+        }
+        if (isBookworm) {
+            Label bookwormLabel = new Label("Bookworm: You spent an impressive amount of time in the software lab doing your ENG1 project!", descriptionStyle);
+            bookwormLabel.setWrap(true);
+            achievementsTable.add(bookwormLabel).padBottom(45).width(290).row();
+        }
+        if (isDuckDuckGo) {
+            Label duckDuckGoLabel = new Label("Duck duck go: What a hero! Single-handedly taking care of the duck population on campus!", descriptionStyle);
+            duckDuckGoLabel.setWrap(true);
+            achievementsTable.add(duckDuckGoLabel).padBottom(50).width(290).row();
+        }
+        // Pack to apply sizes and positions
+        achievementsTable.pack();
+
+
 
         Table scoresTable = new Table();
         gameOverTable.add(scoresTable).prefHeight(380).prefWidth(450);
@@ -169,6 +232,7 @@ public class GameOverScreen implements Screen {
     // Other required methods from Screen
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(gameOverStage);
     }
 
     @Override
@@ -185,5 +249,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void dispose() {
+        gameOverStage.dispose();
+
     }
 }

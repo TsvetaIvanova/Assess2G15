@@ -43,7 +43,7 @@ public class GameScreen implements Screen {
     private int energy = 100;
     private int hoursStudied, hoursRecreational, hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
-    private int day = 1; // What day the game is on
+    private int day = 7; // What day the game is on
     private Label timeLabel, dayLabel;
     private final Table countTable;
     private final Label studyLabel, recreationLabel, sleptLabel;
@@ -63,6 +63,10 @@ public class GameScreen implements Screen {
     private boolean sleeping = false;
 
     private final HashSet<String> dailyActivities = new HashSet<>();
+
+    public static int fishCaught;
+    public static int duckFeeds;
+
 
 
     public void addDailyActivity(String activity) {
@@ -522,13 +526,18 @@ public class GameScreen implements Screen {
 
 
     private void evaluateRecreationalActivities() {
-        int bonus = 0;
-        if (dailyActivities.size() == 2) {
-            bonus = 2;
-        } else if (dailyActivities.size() > 2) {
-            bonus = 1;
+
+        // Count specific activities
+        for (String activity : dailyActivities) {
+            if ("ducks".equals(activity)) {
+
+                duckFeeds++;
+                System.out.println("Duck fed: Total duck feeds = " + duckFeeds); // Print statement for debugging
+            } else if ("fishing".equals(activity)) {
+                fishCaught++;
+                System.out.println("Fish caught: Total fish caught = " + fishCaught); // Print statement for debugging
+            }
         }
-        hoursRecreational += bonus; // Adjust score accordingly
     }
 
     /**

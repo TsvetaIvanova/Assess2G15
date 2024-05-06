@@ -156,6 +156,7 @@ public class EventManager {
             game.passTime(60);
             game.addRecreationalHours(1);
             game.addDailyActivity("fishing");
+            GameScreen.fishCaught++;
         } else {
             game.dialogueBox.setText("You're too tired to fish right now!");
         }
@@ -174,6 +175,7 @@ public class EventManager {
             game.passTime(30);
             game.addRecreationalHours(1);
             game.addDailyActivity("ducks");
+            GameScreen.duckFeeds++;
         } else {
             game.dialogueBox.setText("You're too tired to feed the ducks right now!");
         }
