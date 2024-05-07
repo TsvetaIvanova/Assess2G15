@@ -64,6 +64,10 @@ public class GameScreen implements Screen {
 
     private final HashSet<String> dailyActivities = new HashSet<>();
 
+    public static int fishCaught;
+    public static int duckFeeds;
+
+
 
     public void addDailyActivity(String activity) {
         dailyActivities.add(activity);
@@ -522,13 +526,18 @@ public class GameScreen implements Screen {
 
 
     private void evaluateRecreationalActivities() {
-        int bonus = 0;
-        if (dailyActivities.size() == 2) {
-            bonus = 2;
-        } else if (dailyActivities.size() > 2) {
-            bonus = 1;
+
+        // Count specific activities
+        for (String activity : dailyActivities) {
+            if ("ducks".equals(activity)) {
+
+                duckFeeds++;
+                System.out.println("Duck fed: Total duck feeds = " + duckFeeds); // Print statement for debugging
+            } else if ("fishing".equals(activity)) {
+                fishCaught++;
+                System.out.println("Fish caught: Total fish caught = " + fishCaught); // Print statement for debugging
+            }
         }
-        hoursRecreational += bonus; // Adjust score accordingly
     }
 
     /**
