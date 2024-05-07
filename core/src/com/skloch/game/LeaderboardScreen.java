@@ -23,7 +23,7 @@ public class LeaderboardScreen implements Screen {
     Viewport viewport;
     OrthographicCamera camera;
 
-    public LeaderboardScreen (final HustleGame game, int finalScore) {
+    public LeaderboardScreen (final HustleGame game, String playerName, int finalScore) {
         this.game = game;
         leaderboardStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
         Gdx.input.setInputProcessor(leaderboardStage);
@@ -44,7 +44,7 @@ public class LeaderboardScreen implements Screen {
         Leaderboard leaderboard = new Leaderboard();
 
         //get player name
-        String playerName = System.getProperty("user.name");
+        //String playerName = System.getProperty("user.name");
 
         leaderboard.updateLeaderboard(playerName, finalScore);
 

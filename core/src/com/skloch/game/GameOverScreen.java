@@ -204,7 +204,7 @@ public class GameOverScreen implements Screen {
                 game.soundManager.playButton();
                 game.soundManager.overworldMusic.stop();
                 dispose();
-                game.setScreen(new LeaderboardScreen(game, finalScore));
+                game.setScreen(new GetPlayerNameScreen(game, finalScore));
             }
         });
 
