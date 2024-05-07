@@ -59,11 +59,13 @@ public class GameOverScreen implements Screen {
         Window gameOverWindow = new Window("", game.skin);
         gameOverStage.addActor(gameOverWindow);
 
+
         // Create the window
         Window achievementsWindow = new Window("", game.skin);
-        achievementsWindow.setSize(300, 300); // Make this window smaller
-        achievementsWindow.setPosition(gameOverWindow.getX() - achievementsWindow.getWidth() - 20, gameOverWindow.getY());
+        achievementsWindow.setSize(330, 660);
+        //achievementsWindow.setPosition(gameOverWindow.getX() - achievementsWindow.getWidth() - 20, gameOverWindow.getY());
         gameOverStage.addActor(achievementsWindow);
+
 
         // Table for UI elements in window
         Table gameOverTable = new Table();
@@ -71,53 +73,73 @@ public class GameOverScreen implements Screen {
 
         // Table for UI elements in window
         Table achievementsTable = new Table();
-        achievementsTable.top(); // Ensure the title and items align to the top of the window
-        achievementsWindow.add(achievementsTable);
+        // achievementsTable.top(); // Ensure the title and items align to the top of the window
+        achievementsWindow.add(achievementsTable).prefHeight(600).prefWidth(300).fill().expand();
         achievementsTable.setFillParent(true);
+        achievementsTable.setVisible(true);
+
+
 
         // Title
         Label title = new Label("Game Over!", game.skin, "button");
         gameOverTable.add(title).padTop(30);
         gameOverTable.row();
 
-        // Achievements table title set up
+        // Achievements table title set up, previous padTop(55)
         Label.LabelStyle style = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
-        Label achievementsTitle = new Label("Achievements!", style);
-        achievementsTitle.setFontScale(0.8f);
-        achievementsTable.add(achievementsTitle).padTop(35).center().expand().fill();
+        Label aTitle = new Label("Achievements!", style);
+        title.setFontScale(0.79f);
+        achievementsTable.add(aTitle).padTop(55).padLeft(-10).padRight(10).center();
+        achievementsTable.row();
+        achievementsTable.top();
+
+
+
+
+        // Achievements scores table setup
+        Table achievementsScoresTable = new Table();
+        achievementsTable.add(achievementsScoresTable).prefHeight(300).prefWidth(300);
+        achievementsTable.add(achievementsScoresTable).expand().fill();
         achievementsTable.row();
 
 
-//        Table achievementsScoresTable = new Table();
-//        achievementsTable.add(achievementsScoresTable).prefHeight(300).prefWidth(300);
-//        achievementsTable.add(achievementsScoresTable).expand().fill();
-//        achievementsTable.row();
-
-        // Achievements scores table setup
 
 
         // Set font scale for achievement descriptions
         Label.LabelStyle descriptionStyle = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
-        descriptionStyle.font.getData().setScale(0.65f);  // Decrease the font scale
+        descriptionStyle.font.getData().setScale(0.65f);
 
         // Populate the table with achievements
         if (isBestFisher) {
             Label bestFisherLabel = new Label("BestFisher: Yayy, you caught enough fish to give to your friends!", descriptionStyle);
             bestFisherLabel.setWrap(true);
-            achievementsTable.add(bestFisherLabel).padBottom(40).width(290).row();  // Set width to fit within the window
+            achievementsScoresTable.add(bestFisherLabel).width(240).padBottom(10).padLeft(10).padRight(30);
+            achievementsScoresTable.row();
         }
         if (isBookworm) {
             Label bookwormLabel = new Label("Bookworm: You spent an impressive amount of time in the software lab doing your ENG1 project!", descriptionStyle);
             bookwormLabel.setWrap(true);
-            achievementsTable.add(bookwormLabel).padBottom(45).width(290).row();
+            achievementsScoresTable.add(bookwormLabel).width(240).padBottom(10).padLeft(10).padRight(30);
+            achievementsScoresTable.row();
         }
         if (isDuckDuckGo) {
             Label duckDuckGoLabel = new Label("Duck duck go: What a hero! Single-handedly taking care of the duck population on campus!", descriptionStyle);
             duckDuckGoLabel.setWrap(true);
-            achievementsTable.add(duckDuckGoLabel).padBottom(50).width(290).row();
+            achievementsScoresTable.add(duckDuckGoLabel).width(245).padBottom(10).padLeft(10).padRight(30);
+            achievementsScoresTable.row();
         }
+        else{
+            Label noAchievLabel = new Label("No achievements this game:(", descriptionStyle);
+            noAchievLabel.setWrap(true);
+            achievementsScoresTable.add(noAchievLabel).width(245).height(300).padBottom(10).padLeft(10).padRight(30);
+            achievementsScoresTable.row();
+
+        }
+
+
         // Pack to apply sizes and positions
         achievementsTable.pack();
+        achievementsScoresTable.pack();
 
 
 
@@ -189,6 +211,7 @@ public class GameOverScreen implements Screen {
 
         gameOverWindow.pack();
 
+
         gameOverWindow.setSize(600, 600);
 
         // Centre the window
@@ -250,6 +273,7 @@ public class GameOverScreen implements Screen {
     @Override
     public void dispose() {
         gameOverStage.dispose();
+
 
     }
 }
