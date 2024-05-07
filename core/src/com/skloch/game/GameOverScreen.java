@@ -27,6 +27,8 @@ public class GameOverScreen implements Screen {
     Viewport viewport;
     OrthographicCamera camera;
 
+    int bonusStreaks=0;
+
     /**
      * A screen to display a 'Game Over' screen when the player finishes their exams
      * Currently does not calculate a score, just shows the player's stats to them, as requested in assessment 1
@@ -41,12 +43,20 @@ public class GameOverScreen implements Screen {
         this.game = game;
 
         // Streaks definitions
-
         boolean isBookworm = hoursStudied >= 7 && hoursStudied < 10;
+        if (isBookworm) {
+            bonusStreaks += 5;
+        }
 
         boolean isDuckDuckGo = GameScreen.duckFeeds >= 5;
+        if (isDuckDuckGo) {
+            bonusStreaks += 5;
+        }
 
         boolean isBestFisher = GameScreen.fishCaught >= 5;
+        if (isBestFisher) {
+            bonusStreaks += 5;
+        }
 
         gameOverStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
         Gdx.input.setInputProcessor(gameOverStage);
@@ -109,31 +119,47 @@ public class GameOverScreen implements Screen {
         Label.LabelStyle descriptionStyle = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
         descriptionStyle.font.getData().setScale(0.65f);
 
+
+
+        // Track if any achievements have been added
+        boolean anyAchievements = false;
+
         // Populate the table with achievements
         if (isBestFisher) {
+            anyAchievements = true;
             Label bestFisherLabel = new Label("BestFisher: Yayy, you caught enough fish to give to your friends!", descriptionStyle);
             bestFisherLabel.setWrap(true);
             achievementsScoresTable.add(bestFisherLabel).width(240).padBottom(10).padLeft(10).padRight(30);
             achievementsScoresTable.row();
         }
         if (isBookworm) {
+            anyAchievements = true;
             Label bookwormLabel = new Label("Bookworm: You spent an impressive amount of time in the software lab doing your ENG1 project!", descriptionStyle);
             bookwormLabel.setWrap(true);
             achievementsScoresTable.add(bookwormLabel).width(240).padBottom(10).padLeft(10).padRight(30);
             achievementsScoresTable.row();
         }
         if (isDuckDuckGo) {
+            anyAchievements = true;
             Label duckDuckGoLabel = new Label("Duck duck go: What a hero! Single-handedly taking care of the duck population on campus!", descriptionStyle);
             duckDuckGoLabel.setWrap(true);
             achievementsScoresTable.add(duckDuckGoLabel).width(245).padBottom(10).padLeft(10).padRight(30);
             achievementsScoresTable.row();
         }
-        else{
+
+        if (!anyAchievements) {
             Label noAchievLabel = new Label("No achievements this game:(", descriptionStyle);
             noAchievLabel.setWrap(true);
             achievementsScoresTable.add(noAchievLabel).width(245).height(300).padBottom(10).padLeft(10).padRight(30);
             achievementsScoresTable.row();
+        }
 
+        // Always display the bonus streaks at the end if there are any
+        if (bonusStreaks > 0) {
+            Label bonusStreaksLabel = new Label("Bonus Streaks: " + bonusStreaks + " points", descriptionStyle);
+            bonusStreaksLabel.setWrap(true);
+            achievementsScoresTable.add(bonusStreaksLabel).width(240).padTop(20).padBottom(10).padLeft(10).padRight(30);
+            achievementsScoresTable.row();
         }
 
 
@@ -160,7 +186,7 @@ public class GameOverScreen implements Screen {
         }
 
         // Calculating the overall score
-        int finalScore = (int) (hoursStudied + ScoreManager.getTotalRecreationScore() + ScoreManager.getTotalEatScore());
+        int finalScore = (int) (hoursStudied + ScoreManager.getTotalRecreationScore() + ScoreManager.getTotalEatScore() + bonusStreaks);
 
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
