@@ -28,7 +28,7 @@ public class GameOverScreen implements Screen {
     Viewport viewport;
     OrthographicCamera camera;
 
-    int bonusStreaks=0;
+    int bonusStreaks = 0, studyScoreLost = 0;
 
     /**
      * A screen to display a 'Game Over' screen when the player finishes their exams
@@ -181,9 +181,11 @@ public class GameOverScreen implements Screen {
         } else{
             studyMessage = "You did not study enough!";
         }
-        if(Arrays.stream(game.gameScreen.daysStudied).anyMatch(x -> x == 0)){
-            studyMessage = "You missed a day of studying!";
-            hoursStudied = 0;
+        for(int i = 0; i < game.gameScreen.daysStudied.length; i++){
+            if(game.gameScreen.daysStudied[i] == 0 && hoursStudied > 0){
+                hoursStudied -= 1;
+                studyScoreLost += 1;
+            }
         }
 
         // Calculating the overall score
@@ -192,16 +194,21 @@ public class GameOverScreen implements Screen {
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(10);
+        if(studyScoreLost != 0){
+            scoresTable.add(new Label(String.valueOf(Double.valueOf(hoursStudied)) + " (Missed Days -" + studyScoreLost + ")", game.skin, "button"));
+        }
+        else{
+            scoresTable.add(new Label(String.valueOf(Double.valueOf(hoursStudied)), game.skin, "button")).padBottom(10);
+        }
         scoresTable.row();
-        //scoresTable.add(new Label("Recreational Score", game.skin, "interaction")).padBottom(5);
-        //scoresTable.row();
-        //scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(10);
-        //scoresTable.row();
-        //scoresTable.add(new Label("Eating Score", game.skin, "interaction")).padBottom(5);
-        //scoresTable.row();
-        //scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
-        //scoresTable.row();
+        scoresTable.add(new Label("Recreational Score", game.skin, "interaction")).padBottom(5);
+        scoresTable.row();
+        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(10);
+        scoresTable.row();
+        scoresTable.add(new Label("Eating Score", game.skin, "interaction")).padBottom(5);
+        scoresTable.row();
+        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
+        scoresTable.row();
         scoresTable.add(new Label("Final Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
         scoresTable.add(new Label(String.valueOf(finalScore), game.skin, "button")).padBottom(10);
