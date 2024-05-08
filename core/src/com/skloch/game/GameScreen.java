@@ -61,6 +61,9 @@ public class GameScreen implements Screen {
     public DialogueBox dialogueBox;
     public final Image blackScreen;
     private boolean sleeping = false;
+    public boolean catchUp = false;
+    public int[] daysStudied = {0, 0, 0, 0, 0, 0, 0};
+
 
     private final HashSet<String> dailyActivities = new HashSet<>();
 
@@ -792,6 +795,10 @@ public class GameScreen implements Screen {
      */
     public float getSeconds() {
         return daySeconds;
+    }
+
+    public int getDay(){
+        return day;
     }
 
     /**

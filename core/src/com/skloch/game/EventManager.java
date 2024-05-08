@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,6 +16,7 @@ public class EventManager {
     public HashMap<String, Integer> activityEnergies;
     private final HashMap<String, String> objectInteractions;
     private final Array<String> talkTopics;
+    private int hours;
 
     /**
      * A class that maps Object's event strings to actual Java functions.
@@ -92,6 +94,9 @@ public class EventManager {
                 break;
             case "fishing":
                 fishingEvent();
+                break;
+            case "catch_up":
+                catchUpEvent(args);
                 break;
             default:
                 objectEvent(eventKey);
@@ -252,20 +257,55 @@ public class EventManager {
                 game.dialogueBox.setText("Study for how long?");
                 game.dialogueBox.getSelectBox().setOptions(new String[]{"2 Hours (20)", "3 Hours (30)", "4 Hours (40)"}, new String[]{"comp_sci-2", "comp_sci-3", "comp_sci-4"});
             } else {
-                int hours = Integer.parseInt(args[1]);
+                hours = Integer.parseInt(args[1]);
                 // If the player does not have enough energy for the selected hours
                 if (game.getEnergy() < hours*energyCost) {
                     game.dialogueBox.setText("You don't have the energy to study for this long!");
                 } else {
                     // If they do have the energy to study
-                    game.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", args[1], hours*energyCost));
-                    game.decreaseEnergy(energyCost * hours);
-                    game.addStudyHours(hours);
-                    game.passTime(hours * 60); // in seconds
+                    int[] prevDaysStudied = Arrays.copyOfRange(game.daysStudied, 0, game.getDay() - 1);
+                    if(Arrays.stream(prevDaysStudied).noneMatch(x -> x == 0) || game.catchUp){
+                        game.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", args[1], hours*energyCost));
+                        game.decreaseEnergy(energyCost * hours);
+                        game.addStudyHours(hours);
+                        game.daysStudied[game.getDay() - 1] += hours;
+                        game.passTime(hours * 60); // in seconds
+                    }
+                    else{
+                        game.dialogueBox.getSelectBox().setOptions(new String[]{"Yes", "No"}, new String[]{"catch_up-1", "catch_up-2"});
+                        game.dialogueBox.setText("Would you like to catch up on missed work?");
+                    }
                 }
             }
         } else {
             game.dialogueBox.setText("It's too early in the morning to study, go to bed!");
+        }
+    }
+
+    public void catchUpEvent(String[] args){
+        int energyCost = activityEnergies.get("studying");
+        if(Integer.parseInt(args[1]) == 1){
+            game.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", hours, hours*energyCost));
+            game.decreaseEnergy(energyCost * hours);
+            game.addStudyHours(hours);
+
+            for(int i = 0; i < game.daysStudied.length; i++){
+                if(game.daysStudied[i] == 0){
+                    game.daysStudied[i] += 1;
+                    game.daysStudied[game.getDay() - 1] += hours - 1;
+                    game.catchUp = true;
+                    break;
+                }
+            }
+
+            game.passTime(hours * 60); // in seconds
+        }
+        else if(Integer.parseInt(args[1]) == 2){
+            game.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", hours, hours*energyCost));
+            game.decreaseEnergy(energyCost * hours);
+            game.addStudyHours(hours);
+            game.daysStudied[game.getDay() - 1] += hours;
+            game.passTime(hours * 60); // in seconds
         }
     }
 
@@ -339,12 +379,8 @@ public class EventManager {
             }
         });
 
-        for(int i = 0; i < ScoreManager.dayRecreationScore.length; i++){
-            System.out.println(ScoreManager.dayRecreationScore[i]);
-        }
         ScoreManager.updateEatScore();
         ScoreManager.updateRecreationScore();
-        System.out.println(ScoreManager.getTotalRecreationScore());
 
         fadeToBlack(setTextAction);
     }
