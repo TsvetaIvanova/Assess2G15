@@ -100,7 +100,7 @@ public class GameOverScreen implements Screen {
         Label.LabelStyle style = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
         Label aTitle = new Label("Achievements!", style);
         title.setFontScale(0.79f);
-        achievementsTable.add(aTitle).padTop(55).padLeft(-10).padRight(10).center();
+        achievementsTable.add(aTitle).padTop(35).padLeft(-10).padRight(10).center();
         achievementsTable.row();
         achievementsTable.top();
 
@@ -117,7 +117,9 @@ public class GameOverScreen implements Screen {
         // Set font scale for achievement descriptions
         Label.LabelStyle descriptionStyle = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
         descriptionStyle.font.getData().setScale(0.65f);
-
+        isBookworm = true;
+        isBestFisher = true;
+        isDuckDuckGo = true;
 
 
         // Track if any achievements have been added
@@ -125,38 +127,38 @@ public class GameOverScreen implements Screen {
         // Populate the table with achievements
         if (isBestFisher) {
             anyAchievements = true;
-            Label bestFisherLabel = new Label("BestFisher: Yayy, you caught enough fish to give to your friends!", descriptionStyle);
+            Label bestFisherLabel = new Label("BestFisher +5 bonus", descriptionStyle);
             bestFisherLabel.setWrap(true);
-            achievementsScoresTable.add(bestFisherLabel).width(240).padBottom(20).padLeft(35).padRight(30);
+            achievementsScoresTable.add(bestFisherLabel).width(240).padTop(25).padBottom(75).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
         if (isBookworm) {
             anyAchievements = true;
-            Label bookwormLabel = new Label("Bookworm: You spent an impressive amount of time in the software lab doing your ENG1 project!", descriptionStyle);
+            Label bookwormLabel = new Label("Bookworm +5 bonus", descriptionStyle);
             bookwormLabel.setWrap(true);
-            achievementsScoresTable.add(bookwormLabel).width(240).padBottom(20).padLeft(35).padRight(30);
+            achievementsScoresTable.add(bookwormLabel).width(240).padTop(25).padBottom(75).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
         if (isDuckDuckGo) {
             anyAchievements = true;
-            Label duckDuckGoLabel = new Label("Duck duck go: What a hero! Single-handedly taking care of the duck population on campus!", descriptionStyle);
+            Label duckDuckGoLabel = new Label("Duck duck go +5 bonus", descriptionStyle);
             duckDuckGoLabel.setWrap(true);
-            achievementsScoresTable.add(duckDuckGoLabel).width(245).padBottom(20).padLeft(35).padRight(30);
+            achievementsScoresTable.add(duckDuckGoLabel).width(245).padTop(25).padBottom(75).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
 
         if (!anyAchievements) {
-            Label noAchievLabel = new Label("No achievements this game:(", descriptionStyle);
+            Label noAchievLabel = new Label("No streaks this game:(", descriptionStyle);
             noAchievLabel.setWrap(true);
-            achievementsScoresTable.add(noAchievLabel).width(245).height(300).padBottom(20).padLeft(35).padRight(30);
+            achievementsScoresTable.add(noAchievLabel).width(245).height(300).padTop(45).padBottom(225).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
 
         // Always display the bonus streaks at the end if there are any
         if (bonusStreaks > 0) {
-            Label bonusStreaksLabel = new Label("Bonus Streaks: " + bonusStreaks + " points", descriptionStyle);
+            Label bonusStreaksLabel = new Label("Streak Bonus: " + bonusStreaks, descriptionStyle);
             bonusStreaksLabel.setWrap(true);
-            achievementsScoresTable.add(bonusStreaksLabel).width(240).padTop(20).padBottom(10).padLeft(35).padRight(30);
+            achievementsScoresTable.add(bonusStreaksLabel).width(240).padTop(20).padBottom(20).padLeft(35).padRight(30);
             achievementsScoresTable.row();
         }
 
@@ -174,10 +176,10 @@ public class GameOverScreen implements Screen {
         String studyMessage;
         if (hoursStudied >= 8 && hoursStudied <= 10) {
             hoursStudied *= 2;
-            studyMessage = "You studied enough!";
+            studyMessage = "You studied enough! 2 x bonus " + hoursStudied;
         } else if (hoursStudied > 10) {
             hoursStudied /= 2;
-            studyMessage = "You overworked!";
+            studyMessage = "You overworked and were not very productive" + hoursStudied + "/ 2";
         } else{
             studyMessage = "You did not study enough!";
         }
@@ -211,7 +213,7 @@ public class GameOverScreen implements Screen {
         scoresTable.row();
         scoresTable.add(new Label("Final Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(finalScore), game.skin, "button")).padBottom(10);
+        scoresTable.add(new Label(finalScore + "/100", game.skin, "button")).padBottom(10);
 
         // Exit button
         TextButton exitButton = new TextButton("Main Menu", game.skin);
