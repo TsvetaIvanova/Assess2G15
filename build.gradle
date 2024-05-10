@@ -71,18 +71,25 @@ project(":tests") {
     dependencies {
         implementation project(":core")
 
-        implementation "junit:junit:4.+"
+        // implementation "junit:junit:4.+"
         implementation "org.mockito:mockito-all:1.9.+"
 
         implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
 
-        testImplementation 'junit:junit:4.+'
+        // testImplementation 'junit:junit:4.+'
         testImplementation "org.mockito:mockito-all:1.9.+"
 
         testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+
+        testImplementation(platform("org.junit:junit-bom:5.10.2"))
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
+            because("Only needed to run tests in a version of IntelliJ IDEA that bundles older versions")
+        }
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+        testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
     }
 
 

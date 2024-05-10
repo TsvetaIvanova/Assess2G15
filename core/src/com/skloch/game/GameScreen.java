@@ -28,6 +28,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.skloch.domain.GameOverHelper;
 
 import java.util.HashSet;
 
@@ -805,6 +806,7 @@ public class GameScreen implements Screen {
      * Ends the game, called at the end of the 7th day, switches to a screen that displays a score
      */
     public void GameOver() {
-        game.setScreen(new GameOverScreen(game, hoursStudied, hoursRecreational, hoursSlept));
+        GameOverHelper gameOverHelper = new GameOverHelper(hoursStudied);
+        game.setScreen(new GameOverScreen(game, hoursStudied, hoursRecreational, hoursSlept, gameOverHelper));
     }
 }
