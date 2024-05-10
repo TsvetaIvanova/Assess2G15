@@ -8,10 +8,7 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         google()
     }
-    dependencies {
-        
 
-    }
 }
 
 allprojects {
@@ -71,13 +68,13 @@ project(":tests") {
     dependencies {
         implementation project(":core")
 
-        // implementation "junit:junit:4.+"
+        implementation "junit:junit:4.+"
         implementation "org.mockito:mockito-all:1.9.+"
 
         implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
 
-        // testImplementation 'junit:junit:4.+'
+        testImplementation 'junit:junit:4.+'
         testImplementation "org.mockito:mockito-all:1.9.+"
 
         testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
@@ -90,6 +87,8 @@ project(":tests") {
         }
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
         testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+//
+
     }
 
 
