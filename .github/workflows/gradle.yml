@@ -2,12 +2,16 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "main" ]
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
   pull_request:
     branches: [ "main" ]
     
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, windows-2022, macos-12]
+    runs-on: ${{matrix.os}}
     permissions:
       contents: read
       
@@ -23,19 +27,48 @@ jobs:
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
 
     #- name: Build with Gradle Wrapper
-    #  run:  cd tests && ./gradlew build
+    #  run:  cd tests && ./gradlew build JacocoTestReport
 
-    - name: Upload Jacoco test Report
-      uses: actions/upload-artifact@v4.3.3
+    - name: Upload Jacoco Test Report
+      uses: actions/upload-artifact@v4.3.2
       with:
-        name: jacoco-test-report
+        name: jacoco-test-report-${{matrix.os}}
         path: tests/build/jacoco/test/html
+
+    #- name: Upload Checkstyle Report
+    #  uses: actions/upload-artifact@v4.3.2
+    #  if: startsWith(matrix.os 'ubuntu')
+    #  with:
+    #    name: ubuntu-checkstyle-report
+    #  if: startsWith(matrix.os 'windows')
+    #  with:
+    #    name: windows-checkstyle-report
+    #  if: startsWith(matrix.os 'linux')
+    #  with:
+    #    name: linux-checkstyle-report
     
     #- name: Upload .jar File
-    #  uses: actions/upload-artifact@v4.3.3
+    #  uses: actions/upload-artifact@v4.3.2
     #  with:
-    #   name: HesHus.jar
+    #   name: HesHus-{{matrix.os}}.jar
     #   path: tests/build/libs/HesHus.jar
+
+  #release:
+  # runs-on: ${{matrix.os}}
+  # needs: ["build"]
+  # if: startsWith(github.ref, 'refs/tags/')
+  # permissions:
+  #   contents: write
+  # steps:
+  # - name: Download a Build Artifact
+  #   uses: actions/download-artifact@v3.0.1
+  #   with:
+  #     name: HesHus.jar
+  # - name: Release
+  #   uses: softprops/action-gh-release@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+  #   with:
+  #     files: HesHus.jar
+
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
