@@ -13,9 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import java.awt.*;
-import java.util.Arrays;
+import com.skloch.domain.GameOverHelper;
 
 /**
  * A screen that displays the player's stats at the end of the game.
@@ -40,14 +38,15 @@ public class GameOverScreen implements Screen {
      * @param hoursRecreational The hours of fun had in the playthrough
      * @param hoursSlept The hours slept in the playthrough
      */
-    public GameOverScreen (final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept) {
+    public GameOverScreen (final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept, GameOverHelper gameOverHelper) {
         this.game = game;
 
         // Streaks definitions
-        boolean isBookworm = hoursStudied >= 7 && hoursStudied < 10;
-        if (isBookworm) {
-            bonusStreaks += 5;
-        }
+        bonusStreaks += gameOverHelper.calculateBonusStreak();
+//        boolean isBookworm = hoursStudied >= 7 && hoursStudied < 10;
+//        if (isBookworm) {
+//            bonusStreaks += 5;
+//        }
 
         boolean isDuckDuckGo = GameScreen.duckFeeds >= 5;
         if (isDuckDuckGo) {
@@ -117,6 +116,8 @@ public class GameOverScreen implements Screen {
         // Set font scale for achievement descriptions
         Label.LabelStyle descriptionStyle = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
         descriptionStyle.font.getData().setScale(0.65f);
+//        isBestFisher = true;
+//        isDuckDuckGo = true;
 
 
 
@@ -130,7 +131,7 @@ public class GameOverScreen implements Screen {
             achievementsScoresTable.add(bestFisherLabel).width(240).padTop(25).padBottom(75).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
-        if (isBookworm) {
+        if (gameOverHelper.isBookWorm()) {
             anyAchievements = true;
             Label bookwormLabel = new Label("Bookworm +5 bonus", descriptionStyle);
             bookwormLabel.setWrap(true);

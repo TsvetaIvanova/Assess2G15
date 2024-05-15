@@ -8,10 +8,7 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         google()
     }
-    dependencies {
-        
 
-    }
 }
 
 allprojects {
@@ -84,6 +81,15 @@ project(":tests") {
         testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+
+        testImplementation(platform("org.junit:junit-bom:5.10.2"))
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
+            because("Only needed to run tests in a version of IntelliJ IDEA that bundles older versions")
+        }
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+        testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
+//
+
     }
 
 
