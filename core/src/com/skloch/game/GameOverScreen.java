@@ -116,6 +116,8 @@ public class GameOverScreen implements Screen {
         // Set font scale for achievement descriptions
         Label.LabelStyle descriptionStyle = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
         descriptionStyle.font.getData().setScale(0.65f);
+//        isBestFisher = true;
+//        isDuckDuckGo = true;
 
 
 
