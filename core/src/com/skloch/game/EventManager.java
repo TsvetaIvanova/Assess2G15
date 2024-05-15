@@ -346,43 +346,12 @@ public class EventManager {
      * Lets the player go to sleep, fades the screen to black then shows a dialogue about the amount of sleep
      * the player gets
      * Then queues up fadeFromBlack to be called when this dialogue closes
-     * @see GameScreen fadeToBlack function
+     *
      * @param args Unused currently
+     * @see GameScreen fadeToBlack function
      */
     public void accomEvent(String[] args) {
-        game.setSleeping(true);
-        game.dialogueBox.hide();
 
-        // Calculate the hours slept to the nearest hour
-        // Wakes the player up at 8am
-        float secondsSlept;
-        if (game.getSeconds() < 60*8) {
-            secondsSlept = (60*8 - game.getSeconds());
-        } else {
-            // Account for the wakeup time being in the next day
-            secondsSlept = (((60*8) + 1440) - game.getSeconds());
-        }
-        int hoursSlept = Math.round(secondsSlept / 60f);
-
-        RunnableAction setTextAction = new RunnableAction();
-        setTextAction.setRunnable(new Runnable() {
-            @Override
-            public void run() {
-                if (game.getSleeping()) {
-                    game.dialogueBox.show();
-                    game.dialogueBox.setText(String.format("You slept for %d hours!\nYou recovered %d energy!", hoursSlept, Math.min(100, hoursSlept*13)), "fadefromblack");
-                    // Restore energy and pass time
-                    game.setEnergy(hoursSlept*13);
-                    game.passTime(secondsSlept);
-                    game.addSleptHours(hoursSlept);
-                }
-            }
-        });
-
-        ScoreManager.updateEatScore();
-        ScoreManager.updateRecreationScore();
-
-        fadeToBlack(setTextAction);
     }
 
     /**
@@ -424,5 +393,8 @@ public class EventManager {
         } else {
             game.blackScreen.addAction(Actions.fadeOut(3f));
         }
+    }
+
+    public void setTesting(boolean b) {
     }
 }
