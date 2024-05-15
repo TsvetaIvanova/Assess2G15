@@ -43,7 +43,7 @@ public class StudyManager {
     }
 
     public void catchUpEvent(int day, int hours, String option) {
-        int energyCost = 10; // Assuming studying always costs 10 energy per hour
+        int energyCost = 10;
         if (option.equals("1")) {
             decreaseEnergy(energyCost * hours);
             addStudyHours(hours);

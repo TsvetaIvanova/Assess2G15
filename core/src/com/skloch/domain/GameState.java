@@ -76,6 +76,6 @@ public class GameState {
     }
 
     public void passTime(int minutes) {
-        // For simplicity, we'll just pass the time as is without any additional logic.
+
     }
 }
