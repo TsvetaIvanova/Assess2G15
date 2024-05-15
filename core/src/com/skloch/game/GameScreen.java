@@ -486,6 +486,16 @@ public class GameScreen implements Screen {
 
     }
 
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+
+    public int getStudyHours() {
+        return this.hoursStudied;
+    }
+
+
 
     @Override
     public void resize(int width, int height) {
