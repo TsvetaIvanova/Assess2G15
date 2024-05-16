@@ -33,6 +33,7 @@ public class HustleGame extends Game {
 	public int mapSquareSize;
 	public float mapScale;
 	public MapProperties mapProperties;
+	public boolean gameTest = false;
 
 
 	/**
@@ -61,8 +62,11 @@ public class HustleGame extends Game {
 	 */
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
+		if(!gameTest){
+			batch = new SpriteBatch();
+		}
 		skin = new Skin(Gdx.files.internal("Interface/BlockyInterface.json"));
+		System.out.println(skin);
 		// Map
 		map = new TmxMapLoader().load("East Campus/east_campus.tmx");
 		mapProperties = map.getProperties();
@@ -76,20 +80,26 @@ public class HustleGame extends Game {
 		mapSquareSize = mapProperties.get("tilewidth", Integer.class);
 		mapScale = 70f;
 
-		shapeRenderer = new ShapeRenderer();
+		if(!gameTest){
+			shapeRenderer = new ShapeRenderer();
+		}
 		soundManager = new SoundManager();
 
 		// Make a stage with a blue background that any screen can draw
 		Image blueImage = new Image(new Texture(Gdx.files.internal("Sprites/white_square.png")));
 		blueImage.setColor(0.53f, 0.81f, 0.92f, 1);
 		blueImage.setName("blue image");
-		blueBackground = new Stage();
-		blueBackground.addActor(blueImage);
+		if(!gameTest){
+			blueBackground = new Stage();
+			blueBackground.addActor(blueImage);
+		}
 
 		credits = readTextFile("Text/credits.txt");
 		tutorialText = readTextFile("Text/tutorial_text.txt");
 
-		this.setScreen(new MenuScreen(this));
+		if(!gameTest){
+			this.setScreen(new MenuScreen(this));
+		}
 	}
 
 	/**

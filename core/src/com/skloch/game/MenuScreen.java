@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * ALso diaplays a tutorial window and an avatar select screen
  */
 public class MenuScreen implements Screen {
-    final HustleGame game;
+    public final HustleGame game;
     private Stage menuStage;
     OrthographicCamera camera;
     private Viewport viewport;
@@ -38,111 +38,117 @@ public class MenuScreen implements Screen {
         this.game = game;
         this.game.menuScreen = this;
         // Create stage to draw UI on
-        menuStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
-        Gdx.input.setInputProcessor(menuStage);
+        if(!game.gameTest){
+            menuStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
+            Gdx.input.setInputProcessor(menuStage);
 
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);
-        camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
+            camera = new OrthographicCamera();
+            viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);
+            camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
 
-        // Set the size of the background to the viewport size, only need to do this once, this is then used by all
-        // screens as an easy way of having a blue background
-        game.blueBackground.getRoot().findActor("blue image").setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
+            // Set the size of the background to the viewport size, only need to do this once, this is then used by all
+            // screens as an easy way of having a blue background
+            game.blueBackground.getRoot().findActor("blue image").setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        // Title image
-        titleImage = new Image(new Texture(Gdx.files.internal("title.png")));
-        titleImage.setPosition((viewport.getWorldWidth() / 2f) - (titleImage.getWidth() / 2f), 500);
-        menuStage.addActor(titleImage);
+            // Title image
+            titleImage = new Image(new Texture(Gdx.files.internal("title.png")));
+            titleImage.setPosition((viewport.getWorldWidth() / 2f) - (titleImage.getWidth() / 2f), 500);
+            menuStage.addActor(titleImage);
 
-        // Play menu music
-        game.soundManager.playMenuMusic();
-
-
-        // Make avatar select table
-        Table avatarSelectTable = makeAvatarSelectTable();
-        menuStage.addActor(avatarSelectTable);
-        avatarSelectTable.setVisible(false);
+            // Play menu music
+            game.soundManager.playMenuMusic();
 
 
-        // Make tutorial window
-        Window tutorialWindow = makeTutorialWindow(avatarSelectTable);
-        menuStage.addActor(tutorialWindow);
-        tutorialWindow.setVisible(false);
+            // Make avatar select table
+            Table avatarSelectTable = makeAvatarSelectTable();
+            menuStage.addActor(avatarSelectTable);
+            avatarSelectTable.setVisible(false);
 
 
-        // Make table to draw buttons and title
-        Table buttonTable = new Table();
-        buttonTable.setFillParent(true);
-        menuStage.addActor(buttonTable);
+            // Make tutorial window
+            Window tutorialWindow = makeTutorialWindow(avatarSelectTable);
+            menuStage.addActor(tutorialWindow);
+            tutorialWindow.setVisible(false);
 
 
-        // Create the buttons
+            // Make table to draw buttons and title
+            Table buttonTable = new Table();
+            buttonTable.setFillParent(true);
+            menuStage.addActor(buttonTable);
+
+
+            // Create the buttons
 //        Label title = new Label("Heslington Hustle", game.skin, "title"); // Old title, new uses a texture
-        TextButton startButton = new TextButton("New Game", game.skin);
-        TextButton settingsButton = new TextButton("Settings", game.skin);
-        TextButton creditsButton = new TextButton("Credits", game.skin);
-        TextButton exitButton = new TextButton("Exit", game.skin);
+            TextButton startButton = new TextButton("New Game", game.skin);
+            TextButton settingsButton = new TextButton("Settings", game.skin);
+            TextButton creditsButton = new TextButton("Credits", game.skin);
+            TextButton exitButton = new TextButton("Exit", game.skin);
 
-        // Add everything to the table using row() to go to a new line
-        int buttonWidth = 340;
-        buttonTable.add(startButton).uniformX().width(buttonWidth).padBottom(10).padTop(280);
-        buttonTable.row();
-        buttonTable.add(settingsButton).uniformX().width(buttonWidth).padBottom(10);
-        buttonTable.row();
-        buttonTable.add(creditsButton).uniformX().width(buttonWidth).padBottom(30);
-        buttonTable.row();
-        buttonTable.add(exitButton).uniformX().width(buttonWidth);
-        buttonTable.top();
+            // Add everything to the table using row() to go to a new line
+            int buttonWidth = 340;
+            buttonTable.add(startButton).uniformX().width(buttonWidth).padBottom(10).padTop(280);
+            buttonTable.row();
+            buttonTable.add(settingsButton).uniformX().width(buttonWidth).padBottom(10);
+            buttonTable.row();
+            buttonTable.add(creditsButton).uniformX().width(buttonWidth).padBottom(30);
+            buttonTable.row();
+            buttonTable.add(exitButton).uniformX().width(buttonWidth);
+            buttonTable.top();
 
-        // Add listeners to the buttons so they do things when pressed
+            // Add listeners to the buttons so they do things when pressed
 
-        // START GAME BUTTON - Displays the tutorial window
-        startButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.soundManager.playButton();
-                buttonTable.setVisible(false);
-                titleImage.setVisible(false);
-                tutorialWindow.setVisible(true);
+            // START GAME BUTTON - Displays the tutorial window
+            startButton.addListener(new ChangeListener() {
+                                        @Override
+                                        public void changed(ChangeEvent event, Actor actor) {
+                                            game.soundManager.playButton();
+                                            buttonTable.setVisible(false);
+                                            titleImage.setVisible(false);
+                                            tutorialWindow.setVisible(true);
 
 //                dispose();
 //                game.setScreen(new GameScreen(game));
-            }
+                                        }
+                                    }
+            );
+
+            // SETTINGS BUTTON
+            Screen thisScreen = this;
+            settingsButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.soundManager.playButton();
+                    game.setScreen(new SettingsScreen(game, thisScreen));
+                }
+            });
+
+            // CREDITS BUTTON
+            creditsButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.soundManager.playButton();
+                    game.setScreen(new CreditScreen(game, thisScreen));
+                }
+            });
+
+            // EXIT BUTTON
+            exitButton.addListener(new ChangeListener() {
+                                       @Override
+                                       public void changed(ChangeEvent event, Actor actor) {
+                                           game.soundManager.playButton();
+                                           game.dispose();
+                                           dispose();
+                                           Gdx.app.exit();
+                                       }
+                                   }
+            );
+
+            game.batch.setProjectionMatrix(camera.combined);
+
         }
-        );
-
-        // SETTINGS BUTTON
-        Screen thisScreen = this;
-        settingsButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.soundManager.playButton();
-                game.setScreen(new SettingsScreen(game, thisScreen));
-            }
-        });
-
-        // CREDITS BUTTON
-        creditsButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.soundManager.playButton();
-                game.setScreen(new CreditScreen(game, thisScreen));
-            }
-        });
-
-        // EXIT BUTTON
-        exitButton.addListener(new ChangeListener() {
-               @Override
-               public void changed(ChangeEvent event, Actor actor) {
-                   game.soundManager.playButton();
-                   game.dispose();
-                   dispose();
-                   Gdx.app.exit();
-               }
-           }
-        );
-
-        game.batch.setProjectionMatrix(camera.combined);
+        else{
+            System.out.println("Should only see when testing, otherwise, game.gameTest has been changed");
+        }
 
     }
 
