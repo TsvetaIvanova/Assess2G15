@@ -132,7 +132,7 @@ public class GameOverScreen implements Screen {
         if (bonusStreaks > 0) {
             Label bonusStreaksLabel = new Label("Streak Bonus: " + bonusStreaks, descriptionStyle);
             bonusStreaksLabel.setWrap(true);
-            achievementsScoresTable.add(bonusStreaksLabel).width(240).padTop(20).padBottom(20).padLeft(35).padRight(30);
+            achievementsScoresTable.add(bonusStreaksLabel).width(240).padTop(20).padBottom(40).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
 
