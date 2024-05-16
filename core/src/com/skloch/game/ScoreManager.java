@@ -59,11 +59,11 @@ public class ScoreManager {
         dayRecreationScore[2] = 0;
     }
 
-    public static double getTotalEatScore(){
-        return totalEatScore;
+    public static int getTotalEatScore(){
+        return (int) totalEatScore;
     }
 
-    public static double getTotalRecreationScore(){
-        return totalRecreationScore;
+    public static int getTotalRecreationScore(){
+        return (int) totalRecreationScore;
     }
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.skloch.domain.AchievementManagerHelper;
 import com.skloch.domain.GameOverHelper;
 
 /**
@@ -33,30 +34,19 @@ public class GameOverScreen implements Screen {
      * Currently does not calculate a score, just shows the player's stats to them, as requested in assessment 1
      * Tracking them now will make win conditions easier to implement for assessment 2
      *
-     * @param game An instance of HustleGame
-     * @param hoursStudied The hours studied in the playthrough
+     * @param game              An instance of HustleGame
+     * @param hoursStudied      The hours studied in the playthrough
      * @param hoursRecreational The hours of fun had in the playthrough
-     * @param hoursSlept The hours slept in the playthrough
+     * @param hoursSlept        The hours slept in the playthrough
+     * @param gameOverHelper
      */
-    public GameOverScreen (final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept, GameOverHelper gameOverHelper) {
+    public GameOverScreen(final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept, GameOverHelper gameOverHelper) {
         this.game = game;
 
-        // Streaks definitions
-        bonusStreaks += gameOverHelper.calculateBonusStreak();
-//        boolean isBookworm = hoursStudied >= 7 && hoursStudied < 10;
-//        if (isBookworm) {
-//            bonusStreaks += 5;
-//        }
-
-        boolean isDuckDuckGo = GameScreen.duckFeeds >= 5;
-        if (isDuckDuckGo) {
-            bonusStreaks += 5;
-        }
-
-        boolean isBestFisher = GameScreen.fishCaught >= 5;
-        if (isBestFisher) {
-            bonusStreaks += 5;
-        }
+        // Initialize AchievementManagerHelper
+        AchievementManagerHelper achievementManagerHelper = new AchievementManagerHelper(hoursStudied, GameScreen.duckFeeds, GameScreen.fishCaught);
+        achievementManagerHelper.calculateAchievements();
+        bonusStreaks = achievementManagerHelper.getBonusStreaks();
 
         gameOverStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
         Gdx.input.setInputProcessor(gameOverStage);
@@ -69,13 +59,10 @@ public class GameOverScreen implements Screen {
         Window gameOverWindow = new Window("", game.skin);
         gameOverStage.addActor(gameOverWindow);
 
-
         // Create the window
         Window achievementsWindow = new Window("", game.skin);
         achievementsWindow.setSize(330, 660);
-        //achievementsWindow.setPosition(gameOverWindow.getX() - achievementsWindow.getWidth() - 20, gameOverWindow.getY());
         gameOverStage.addActor(achievementsWindow);
-
 
         // Table for UI elements in window
         Table gameOverTable = new Table();
@@ -83,19 +70,16 @@ public class GameOverScreen implements Screen {
 
         // Table for UI elements in window
         Table achievementsTable = new Table();
-        // achievementsTable.top(); // Ensure the title and items align to the top of the window
         achievementsWindow.add(achievementsTable).prefHeight(600).prefWidth(300).fill().expand();
         achievementsTable.setFillParent(true);
         achievementsTable.setVisible(true);
-
-
 
         // Title
         Label title = new Label("Game Over!", game.skin, "button");
         gameOverTable.add(title).padTop(30);
         gameOverTable.row();
 
-        // Achievements table title set up, previous padTop(55)
+        // Achievements table title set up
         Label.LabelStyle style = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
         Label aTitle = new Label("Achievements!", style);
         title.setFontScale(0.79f);
@@ -103,40 +87,33 @@ public class GameOverScreen implements Screen {
         achievementsTable.row();
         achievementsTable.top();
 
-
-
         // Achievements scores table setup
         Table achievementsScoresTable = new Table();
         achievementsTable.add(achievementsScoresTable).prefHeight(300).prefWidth(300).expand().fill();
         achievementsTable.row();
 
-
-
-
         // Set font scale for achievement descriptions
         Label.LabelStyle descriptionStyle = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
         descriptionStyle.font.getData().setScale(0.65f);
 
-
-
         // Track if any achievements have been added
         boolean anyAchievements = false;
         // Populate the table with achievements
-        if (isBestFisher) {
+        if (GameScreen.fishCaught >= 5) {
             anyAchievements = true;
-            Label bestFisherLabel = new Label("BestFisher +5 bonus", descriptionStyle);
+            Label bestFisherLabel = new Label("Best Fisher +5 bonus", descriptionStyle);
             bestFisherLabel.setWrap(true);
             achievementsScoresTable.add(bestFisherLabel).width(240).padTop(25).padBottom(75).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
-        if (gameOverHelper.isBookWorm()) {
+        if (hoursStudied >= 7 && hoursStudied < 10) {
             anyAchievements = true;
             Label bookwormLabel = new Label("Bookworm +5 bonus", descriptionStyle);
             bookwormLabel.setWrap(true);
             achievementsScoresTable.add(bookwormLabel).width(240).padTop(25).padBottom(75).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
-        if (isDuckDuckGo) {
+        if (GameScreen.duckFeeds >= 5) {
             anyAchievements = true;
             Label duckDuckGoLabel = new Label("Duck duck go +5 bonus", descriptionStyle);
             duckDuckGoLabel.setWrap(true);
@@ -163,8 +140,6 @@ public class GameOverScreen implements Screen {
         achievementsTable.pack();
         achievementsScoresTable.pack();
 
-
-
         Table scoresTable = new Table();
         gameOverTable.add(scoresTable).prefHeight(380).prefWidth(450);
         gameOverTable.row();
@@ -176,28 +151,27 @@ public class GameOverScreen implements Screen {
             studyMessage = "You studied enough! 2 x bonus " + hoursStudied;
         } else if (hoursStudied > 10) {
             hoursStudied /= 2;
-            studyMessage = "You overworked and were not very productive" + hoursStudied + "/ 2";
-        } else{
+            studyMessage = "You overworked and were not very productive " + hoursStudied + "/ 2";
+        } else {
             studyMessage = "You did not study enough!";
         }
-        for(int i = 0; i < game.gameScreen.daysStudied.length; i++){
-            if(game.gameScreen.daysStudied[i] == 0 && hoursStudied > 0){
+        for (int i = 0; i < game.gameScreen.daysStudied.length; i++) {
+            if (game.gameScreen.daysStudied[i] == 0 && hoursStudied > 0) {
                 hoursStudied -= 1;
                 studyScoreLost += 1;
             }
         }
 
-        // Calculating the overall score
-        int finalScore = (int) (hoursStudied + ScoreManager.getTotalRecreationScore() + ScoreManager.getTotalEatScore() + bonusStreaks);
+        // Calculating the overall score using AchievementManagerHelper
+        int finalScore = achievementManagerHelper.calculateFinalScore(ScoreManager.getTotalRecreationScore(), ScoreManager.getTotalEatScore());
 
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        if(studyScoreLost != 0){
-            scoresTable.add(new Label(String.valueOf(Double.valueOf(hoursStudied)) + " (Missed Days -" + studyScoreLost + ")", game.skin, "button"));
-        }
-        else{
-            scoresTable.add(new Label(String.valueOf(Double.valueOf(hoursStudied)), game.skin, "button")).padBottom(10);
+        if (studyScoreLost != 0) {
+            scoresTable.add(new Label(String.valueOf(hoursStudied) + " (Missed Days -" + studyScoreLost + ")", game.skin, "button"));
+        } else {
+            scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(10);
         }
         scoresTable.row();
         scoresTable.add(new Label("Recreational Score", game.skin, "interaction")).padBottom(5);
@@ -227,7 +201,7 @@ public class GameOverScreen implements Screen {
             }
         });
 
-        //Leaderboard button
+        // Leaderboard button
         TextButton leaderboardButton = new TextButton("Leaderboard", game.skin);
         gameOverTable.add(leaderboardButton).bottom().width(300).padTop(10);
 
@@ -241,22 +215,17 @@ public class GameOverScreen implements Screen {
             }
         });
 
-
         gameOverWindow.pack();
-
-
         gameOverWindow.setSize(600, 600);
 
         // Centre the window
         gameOverWindow.setX((viewport.getWorldWidth() / 2) - (gameOverWindow.getWidth() / 2));
         gameOverWindow.setY((viewport.getWorldHeight() / 2) - (gameOverWindow.getHeight() / 2));
-
-
     }
-
 
     /**
      * Renders the screen and the background each frame
+     *
      * @param delta The time in seconds since the last render.
      */
     @Override
@@ -269,13 +238,11 @@ public class GameOverScreen implements Screen {
         gameOverStage.draw();
 
         camera.update();
-
     }
-
-
 
     /**
      * Correctly resizes the onscreen elements when the window is resized
+     *
      * @param width
      * @param height
      */
@@ -306,7 +273,5 @@ public class GameOverScreen implements Screen {
     @Override
     public void dispose() {
         gameOverStage.dispose();
-
-
     }
 }

@@ -28,6 +28,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.skloch.domain.AvatarSelector;
 import com.skloch.domain.GameOverHelper;
 
 import java.util.HashSet;
@@ -55,7 +56,7 @@ public class GameScreen implements Screen {
     public Stage uiStage;
     private Label interactionLabel;
     private EventManager eventManager;
-//    private OptionDialogue optionDialogue;
+    //    private OptionDialogue optionDialogue;
     protected InputMultiplexer inputMultiplexer;
     private Table uiTable;
     private Image energyBar;
@@ -65,13 +66,10 @@ public class GameScreen implements Screen {
     public boolean catchUp = false;
     public int[] daysStudied = {0, 0, 0, 0, 0, 0, 0};
 
-
     private final HashSet<String> dailyActivities = new HashSet<>();
 
     public static int fishCaught;
     public static int duckFeeds;
-
-
 
     public void addDailyActivity(String activity) {
         dailyActivities.add(activity);
@@ -92,14 +90,11 @@ public class GameScreen implements Screen {
         // Scores
         hoursStudied = hoursRecreational = hoursSlept = 0;
 
-
         // Camera and viewport settings
         camera = new OrthographicCamera();
         viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
         game.shapeRenderer.setProjectionMatrix(camera.combined);
-
-
 
         // Create a stage for the user interface to be on
         uiStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
@@ -113,16 +108,19 @@ public class GameScreen implements Screen {
         uiTable.setSize(game.WIDTH, game.HEIGHT);
         uiStage.addActor(uiTable);
 
-
-
-        // Create a player class
-        if (avatarChoice == 1) {
-            player = new Player("avatar1");
-        } else {
-            player = new Player("avatar2");
+        // Use AvatarSelector to select the player's avatar
+        AvatarSelector avatarSelector = new AvatarSelector();
+        try {
+            avatarSelector.selectAvatar(avatarChoice);
+            if (avatarSelector.getSelectedAvatar() == 1) {
+                player = new Player("avatar1");
+            } else {
+                player = new Player("avatar2");
+            }
+        } catch (IllegalArgumentException e) {
+            Gdx.app.error("GameScreen", "Invalid avatar choice: " + avatarChoice);
+            player = new Player("avatar1"); // Default to avatar1 if invalid choice
         }
-
-
 
         // USER INTERFACE
 
