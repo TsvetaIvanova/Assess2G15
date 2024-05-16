@@ -163,7 +163,7 @@ public class GameOverScreen implements Screen {
         }
 
         // Calculating the overall score using AchievementManagerHelper
-        int finalScore = achievementManagerHelper.calculateFinalScore(ScoreManager.getTotalRecreationScore(), ScoreManager.getTotalEatScore());
+        float finalScore = achievementManagerHelper.calculateFinalScore(ScoreManager.getTotalRecreationScore(), ScoreManager.getTotalEatScore());
 
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);

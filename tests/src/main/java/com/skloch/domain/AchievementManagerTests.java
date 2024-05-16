@@ -44,15 +44,15 @@ public class AchievementManagerTests {
     public void testCalculateFinalScore() {
         achievementManager = new AchievementManagerHelper(9, 5, 5);
         achievementManager.calculateAchievements();
-        int finalScore = achievementManager.calculateFinalScore(30, 20);
-        assertEquals(83, finalScore);
+        float finalScore = achievementManager.calculateFinalScore(30, 20);
+        assertEquals(83.0, finalScore);
     }
 
     @Test
     public void testCalculateFinalScore_Overwork() {
         achievementManager = new AchievementManagerHelper(11, 0, 0);
         achievementManager.calculateAchievements();
-        int finalScore = achievementManager.calculateFinalScore(30, 20);
-        assertEquals(55, finalScore);
+        float finalScore = achievementManager.calculateFinalScore(30, 20);
+        assertEquals(55.0, finalScore);
     }
 }
