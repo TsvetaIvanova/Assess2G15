@@ -23,7 +23,7 @@ public class LeaderboardScreen implements Screen {
     Viewport viewport;
     OrthographicCamera camera;
 
-    public LeaderboardScreen (final HustleGame game, String playerName, int finalScore) {
+    public LeaderboardScreen (final HustleGame game, String playerName, float finalScore) {
         this.game = game;
         leaderboardStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
         Gdx.input.setInputProcessor(leaderboardStage);
@@ -51,7 +51,7 @@ public class LeaderboardScreen implements Screen {
         ArrayList<Leaderboard.LeaderboardEntry> entries = leaderboard.parseLeaderboard();
         for (Leaderboard.LeaderboardEntry entry : entries) {
             leaderboardTable.add(new Label(entry.name, game.skin,"interaction")).padBottom(5);
-            leaderboardTable.add(new Label(Integer.toString(entry.score), game.skin,"interaction")).padBottom(5);
+            leaderboardTable.add(new Label(Float.toString(entry.score), game.skin,"interaction")).padBottom(5);
             leaderboardTable.row();
         }
 

@@ -11,9 +11,9 @@ public class Leaderboard {
 
     static public class LeaderboardEntry {
         String name;
-        int score;
+        float score;
 
-        public LeaderboardEntry(String name, int score) {
+        public LeaderboardEntry(String name, float score) {
             this.name = name;
             this.score = score;
         }
@@ -45,14 +45,14 @@ public class Leaderboard {
             }
 
             //create new LeaderboardEntry and add to the ArrayList
-            LeaderboardEntry thisEntry = new LeaderboardEntry(lineContent[0], Integer.parseInt(lineContent[1]));
+            LeaderboardEntry thisEntry = new LeaderboardEntry(lineContent[0], Float.parseFloat(lineContent[1]));
             list.add(thisEntry);
         }
 
         return list;
     }
 
-    public boolean updateLeaderboard(String name, int finalScore) {
+    public boolean updateLeaderboard(String name, float finalScore) {
         //if the new score is in the top 10, update leaderboard.csv and return true
         //else return false
 
@@ -88,7 +88,7 @@ public class Leaderboard {
             //update csv file (overwrite with new entries array)
             String newFileContent = "";
             for (LeaderboardEntry entry : entries) {
-                newFileContent += entry.name + "," + Integer.toString(entry.score) + "\n";
+                newFileContent += entry.name + "," + entry.score + "\n";
             }
             leaderboardFile.writeString(newFileContent, false);
         }

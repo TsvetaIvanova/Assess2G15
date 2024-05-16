@@ -18,13 +18,13 @@ public class GetPlayerNameScreen implements Screen {
     //and then passing that to LeaderboardScreen
 
     private HustleGame game;
-    int finalScore;
+    float finalScore;
     String playerName = "";
     Stage getNameStage;
     Viewport viewport;
     OrthographicCamera camera;
 
-    public GetPlayerNameScreen (final HustleGame game, int finalScore) {
+    public GetPlayerNameScreen (final HustleGame game, float finalScore) {
         this.game = game;
         this.finalScore = finalScore;
 

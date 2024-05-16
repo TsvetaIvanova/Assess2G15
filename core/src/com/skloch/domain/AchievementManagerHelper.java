@@ -32,7 +32,7 @@ public class AchievementManagerHelper {
         return bonusStreaks;
     }
 
-    public int calculateFinalScore(int recreationalScore, int eatingScore) {
+    public float calculateFinalScore(float recreationalScore, float eatingScore) {
         int finalStudyScore = hoursStudied;
 
         if (hoursStudied >= 8 && hoursStudied <= 10) {
