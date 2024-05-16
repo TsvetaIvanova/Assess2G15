@@ -45,7 +45,7 @@ public class AchievementManagerTests {
         achievementManager = new AchievementManagerHelper(9, 5, 5);
         achievementManager.calculateAchievements();
         float finalScore = achievementManager.calculateFinalScore(30, 20);
-        assertEquals(83.0, finalScore);
+        assertEquals(83, finalScore,0);
     }
 
     @Test
@@ -53,6 +53,6 @@ public class AchievementManagerTests {
         achievementManager = new AchievementManagerHelper(11, 0, 0);
         achievementManager.calculateAchievements();
         float finalScore = achievementManager.calculateFinalScore(30, 20);
-        assertEquals(55.0, finalScore);
+        assertEquals(55.0, finalScore, 0);
     }
 }
