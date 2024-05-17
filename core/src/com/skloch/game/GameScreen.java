@@ -92,7 +92,8 @@ public class GameScreen implements Screen {
 
         // Camera and viewport settings
         camera = new OrthographicCamera();
-        viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);
+        float zoom = (float)1.3;
+        viewport = new FitViewport((int)(game.WIDTH*zoom), (int)(game.HEIGHT*zoom), camera);
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
         if(!game.gameTest){
             game.shapeRenderer.setProjectionMatrix(camera.combined);
