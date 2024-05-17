@@ -28,8 +28,6 @@ public class IntroductionTests {
 
         //Remove line seperators from the tutorial text
         String tutorialText = menu.game.tutorialText.replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-
-        System.out.println(menu.game.tutorialText);
         Assert.assertEquals(expectedText, tutorialText);
     }
 }
