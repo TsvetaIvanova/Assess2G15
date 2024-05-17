@@ -20,6 +20,9 @@ public class ScoreManager {
         if(allOnes){
             totalEatScore += sum * 2;
         }
+        else{
+            totalEatScore += sum;
+        }
 
         resetDayEatScore();
     }
@@ -65,5 +68,11 @@ public class ScoreManager {
 
     public static int getTotalRecreationScore(){
         return (int) totalRecreationScore;
+    }
+    public static void setTotalEatScore(int val){
+        totalEatScore = val;
+    }
+    public static void setTotalRecreationScore(int val){
+        totalRecreationScore = val;
     }
 }

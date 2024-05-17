@@ -66,7 +66,6 @@ public class HustleGame extends Game {
 			batch = new SpriteBatch();
 		}
 		skin = new Skin(Gdx.files.internal("Interface/BlockyInterface.json"));
-		System.out.println(skin);
 		// Map
 		map = new TmxMapLoader().load("East Campus/east_campus.tmx");
 		mapProperties = map.getProperties();

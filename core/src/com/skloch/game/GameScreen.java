@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
     private int day = 1; // What day the game is on
     private Label timeLabel, dayLabel;
     private final Table countTable;
-    private final Label studyLabel, recreationLabel, sleptLabel;
+    private Label studyLabel, recreationLabel, sleptLabel;
     public Player player;
     private Window escapeMenu;
     private Viewport viewport;
@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
     public DialogueBox dialogueBox;
     public final Image blackScreen;
     private boolean sleeping = false;
-    public boolean catchUp = false;
+    public boolean catchUp = false, testGameOver = false;
     public int[] daysStudied = {0, 0, 0, 0, 0, 0, 0};
 
     private final HashSet<String> dailyActivities = new HashSet<>();
@@ -94,19 +94,25 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
-        game.shapeRenderer.setProjectionMatrix(camera.combined);
+        if(!game.gameTest){
+            game.shapeRenderer.setProjectionMatrix(camera.combined);
+        }
 
         // Create a stage for the user interface to be on
-        uiStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
+        if(!game.gameTest){
+            uiStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
+        }
         // Add a black image over everything first
         blackScreen = new Image(new Texture(Gdx.files.internal("Sprites/black_square.png")));
         blackScreen.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
         blackScreen.addAction(Actions.alpha(0f));
 
         // UI table to put everything in
-        uiTable = new Table();
-        uiTable.setSize(game.WIDTH, game.HEIGHT);
-        uiStage.addActor(uiTable);
+        if(!game.gameTest){
+            uiTable = new Table();
+            uiTable.setSize(game.WIDTH, game.HEIGHT);
+            uiStage.addActor(uiTable);
+        }
 
         // Use AvatarSelector to select the player's avatar
         AvatarSelector avatarSelector = new AvatarSelector();
@@ -134,17 +140,17 @@ public class GameScreen implements Screen {
 //        // Use addActor to add windows to the scene
 //        uiTable.addActor(optionDialogue.getWindow());
 //        optionDialogue.setVisible(false);
+        if(!game.gameTest) {
+            // Interaction label to prompt player
+            interactionLabel = new Label("E - Interact", game.skin, "default");
 
-        // Interaction label to prompt player
-        interactionLabel = new Label("E - Interact", game.skin, "default");
-
-        // Dialogue box
-        dialogueBox = new DialogueBox(game.skin);
-        dialogueBox.setPos(
-                (viewport.getWorldWidth() - dialogueBox.getWidth()) / 2f,
-                15f);
-        dialogueBox.hide();
-
+            // Dialogue box
+            dialogueBox = new DialogueBox(game.skin);
+            dialogueBox.setPos(
+                    (viewport.getWorldWidth() - dialogueBox.getWidth()) / 2f,
+                    15f);
+            dialogueBox.hide();
+        }
 
 
 
@@ -164,43 +170,46 @@ public class GameScreen implements Screen {
 
         //Counter display table
         countTable = new Table();
-        countTable.setFillParent(true);
-        studyLabel = new Label(String.format("Study Hours %d", hoursStudied), game.skin, "day");
-        recreationLabel = new Label(String.format("Recreation Hours %d", hoursRecreational), game.skin, "day");
-        sleptLabel = new Label(String.format("Hours slept %d", hoursSlept), game.skin, "day");
-        countTable.setFillParent(true);
-        countTable.add(studyLabel).uniformX();
-        countTable.row();
-        countTable.add(recreationLabel).uniformX();
-        countTable.row();
-        countTable.add(sleptLabel).uniformX();
-        countTable.top().right().padRight(10).padTop(10);
-
-        // Table to display date and time
-        Table timeTable = new Table();
-        timeTable.setFillParent(true);
-        timeLabel = new Label(formatTime((int) daySeconds), game.skin, "time");
-        dayLabel = new Label(String.format("Day %d", day), game.skin, "day");
-        timeTable.add(timeLabel).uniformX();
-        timeTable.row();
-        timeTable.add(dayLabel).uniformX().left().padTop(2);
-        timeTable.top().left().padLeft(10).padTop(10);
-
-        // Set the order of rendered UI elements
-        uiTable.add(interactionLabel).padTop(300);
-        uiStage.addActor(energyGroup);
-        uiStage.addActor(timeTable);
-        uiStage.addActor(countTable);
-        uiStage.addActor(blackScreen);
-        uiStage.addActor(dialogueBox.getWindow());
-        uiStage.addActor(dialogueBox.getSelectBox().getWindow());
-        setupEscapeMenu(uiStage);
+        if(!game.gameTest) {
+            countTable.setFillParent(true);
+            studyLabel = new Label(String.format("Study Hours %d", hoursStudied), game.skin, "day");
+            recreationLabel = new Label(String.format("Recreation Hours %d", hoursRecreational), game.skin, "day");
+            sleptLabel = new Label(String.format("Hours slept %d", hoursSlept), game.skin, "day");
+            countTable.setFillParent(true);
+            countTable.add(studyLabel).uniformX();
+            countTable.row();
+            countTable.add(recreationLabel).uniformX();
+            countTable.row();
+            countTable.add(sleptLabel).uniformX();
+            countTable.top().right().padRight(10).padTop(10);
 
 
+            // Table to display date and time
+            Table timeTable = new Table();
+            timeTable.setFillParent(true);
+            timeLabel = new Label(formatTime((int) daySeconds), game.skin, "time");
+            dayLabel = new Label(String.format("Day %d", day), game.skin, "day");
+            timeTable.add(timeLabel).uniformX();
+            timeTable.row();
+            timeTable.add(dayLabel).uniformX().left().padTop(2);
+            timeTable.top().left().padLeft(10).padTop(10);
 
-        // Start music
-        game.soundManager.playOverworldMusic();
+            // Set the order of rendered UI elements
+            uiTable.add(interactionLabel).padTop(300);
+            uiStage.addActor(energyGroup);
+            uiStage.addActor(timeTable);
+            uiStage.addActor(countTable);
+            uiStage.addActor(blackScreen);
+            uiStage.addActor(dialogueBox.getWindow());
+            uiStage.addActor(dialogueBox.getSelectBox().getWindow());
+            setupEscapeMenu(uiStage);
+        }
 
+
+        if(!game.gameTest) {
+            // Start music
+            game.soundManager.playOverworldMusic();
+        }
 
         // Create the keyboard input adapter that defines events to be called based on
         // specific button presses
@@ -212,58 +221,66 @@ public class GameScreen implements Screen {
         // back to this screen from the settings menu
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(gameKeyBoardInput);
-        inputMultiplexer.addProcessor(uiStage);
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        if(!game.gameTest) {
+            inputMultiplexer.addProcessor(uiStage);
+            Gdx.input.setInputProcessor(inputMultiplexer);
+        }
 
-
-
-        // Setup map
         float unitScale = game.mapScale / game.mapSquareSize;
-        mapRenderer = new OrthogonalTiledMapRenderer(game.map, unitScale);
+        if(!game.gameTest) {
+            // Setup map
+            mapRenderer = new OrthogonalTiledMapRenderer(game.map, unitScale);
+        }
 
-        // Set the player to the middle of the map
-        // Get the dimensions of the top layer
-        TiledMapTileLayer layer0 = (TiledMapTileLayer) game.map.getLayers().get(0);
-        player.setPos(layer0.getWidth()*game.mapScale / 2f, layer0.getHeight()*game.mapScale / 2f);
-        // Put camera on player
-        camera.position.set(player.getCentreX(), player.getCentreY(), 0);
+        if(!game.gameTest) {
+            // Set the player to the middle of the map
+            // Get the dimensions of the top layer
+            TiledMapTileLayer layer0 = (TiledMapTileLayer) game.map.getLayers().get(0);
+            player.setPos(layer0.getWidth() * game.mapScale / 2f, layer0.getHeight() * game.mapScale / 2f);
+            // Put camera on player
+            camera.position.set(player.getCentreX(), player.getCentreY(), 0);
+        }
 
-        // Give objects to player
-        for (int layer : game.objectLayers) {
-            // Get all objects on the layer
-            MapObjects objects = game.map.getLayers().get(layer).getObjects();
+        if(!game.gameTest) {
+            // Give objects to player
+            for (int layer : game.objectLayers) {
+                // Get all objects on the layer
+                MapObjects objects = game.map.getLayers().get(layer).getObjects();
 
-            // Loop through each, handing them to the player
-            for (int i = 0; i < objects.getCount(); i++) {
-                // Get the properties of each object
-                MapProperties properties = objects.get(i).getProperties();
-                // If this is the spawn object, move the player there and don't collide
-                if (properties.get("spawn") != null) {
-                    player.setPos(((float) properties.get("x")) *unitScale, ((float) properties.get("y"))*unitScale);
-                    camera.position.set(player.getPosAsVec3());
-                } else {
-                    // Make a new gameObject with these properties, passing along the scale the map is rendered
-                    // at for accurate coordinates
-                    player.addCollidable(new GameObject(properties, unitScale));
+                // Loop through each, handing them to the player
+                for (int i = 0; i < objects.getCount(); i++) {
+                    // Get the properties of each object
+                    MapProperties properties = objects.get(i).getProperties();
+                    // If this is the spawn object, move the player there and don't collide
+                    if (properties.get("spawn") != null) {
+                        player.setPos(((float) properties.get("x")) * unitScale, ((float) properties.get("y")) * unitScale);
+                        camera.position.set(player.getPosAsVec3());
+                    } else {
+                        // Make a new gameObject with these properties, passing along the scale the map is rendered
+                        // at for accurate coordinates
+                        player.addCollidable(new GameObject(properties, unitScale));
+                    }
                 }
             }
         }
 
-        // Set the player to not go outside the bounds of the map
-        // Assumes the bottom left corner of the map is at 0, 0
-        player.setBounds(
-                new Rectangle(
-                        0,
-                        0,
-                        game.mapProperties.get("width", Integer.class) * game.mapScale,
-                        game.mapProperties.get("height", Integer.class) * game.mapScale
-                )
-        );
-        game.shapeRenderer.setProjectionMatrix(camera.combined);
+        if(!game.gameTest) {
+            // Set the player to not go outside the bounds of the map
+            // Assumes the bottom left corner of the map is at 0, 0
+            player.setBounds(
+                    new Rectangle(
+                            0,
+                            0,
+                            game.mapProperties.get("width", Integer.class) * game.mapScale,
+                            game.mapProperties.get("height", Integer.class) * game.mapScale
+                    )
+            );
+            game.shapeRenderer.setProjectionMatrix(camera.combined);
 
-        // Display a little good morning message
-        dialogueBox.show();
-        dialogueBox.setText(getWakeUpMessage());
+            // Display a little good morning message
+            dialogueBox.show();
+            dialogueBox.setText(getWakeUpMessage());
+        }
     }
 
     @Override
@@ -799,12 +816,20 @@ public class GameScreen implements Screen {
     public int getDay(){
         return day;
     }
+    public void setDay(int val){
+        day = val;
+    }
 
     /**
      * Ends the game, called at the end of the 7th day, switches to a screen that displays a score
      */
     public void GameOver() {
-        GameOverHelper gameOverHelper = new GameOverHelper(hoursStudied);
-        game.setScreen(new GameOverScreen(game, hoursStudied, hoursRecreational, hoursSlept, gameOverHelper));
+        if(!game.gameTest) {
+            GameOverHelper gameOverHelper = new GameOverHelper(hoursStudied);
+            game.setScreen(new GameOverScreen(game, hoursStudied, hoursRecreational, hoursSlept, gameOverHelper));
+        }
+        else{
+            testGameOver = true;
+        }
     }
 }

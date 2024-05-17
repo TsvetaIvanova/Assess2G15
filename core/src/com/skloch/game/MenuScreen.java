@@ -150,6 +150,8 @@ public class MenuScreen implements Screen {
             System.out.println("Should only see when testing, otherwise, game.gameTest has been changed");
         }
 
+        ScoreManager.setTotalRecreationScore(0);
+        ScoreManager.setTotalEatScore(0);
     }
 
     /**
