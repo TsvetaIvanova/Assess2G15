@@ -30,13 +30,13 @@ jobs:
     - run: echo "Set up Gradle"
 
     - name: Build with Gradle Wrapper
-      run:  cd gradle/wrapper && ./gradlew -b JacocoTestReport
+      run:  ./gradlew build
 
     - name: Upload .jar File
       uses: actions/upload-artifact@v4.3.2
       with:
        name: HesHus-{{matrix.os}}.jar
-       path: tests/build/libs/HesHus.jar
+       path: tests/build/libs/HesHus-{{matrix.os}}.jar
     - run: echo "Uploaded .jar file"
 
     - name: Upload Jacoco Test Report
