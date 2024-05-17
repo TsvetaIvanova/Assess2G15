@@ -148,7 +148,7 @@ public class GameScreen implements Screen {
             // Dialogue box
             dialogueBox = new DialogueBox(game.skin);
             dialogueBox.setPos(
-                    (viewport.getWorldWidth() - dialogueBox.getWidth()) / 2f,
+                    (0) / 2f,
                     15f);
             dialogueBox.hide();
         }
