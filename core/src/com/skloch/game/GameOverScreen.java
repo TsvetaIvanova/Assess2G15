@@ -13,8 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.skloch.domain.AchievementManagerHelper;
 import com.skloch.domain.GameOverHelper;
+import com.skloch.domain.AchievementManagerHelper;
+
+import static com.skloch.game.GameScreen.duckFeeds;
+import static com.skloch.game.GameScreen.fishCaught;
 
 /**
  * A screen that displays the player's stats at the end of the game.
@@ -34,6 +37,7 @@ public class GameOverScreen implements Screen {
      * Currently does not calculate a score, just shows the player's stats to them, as requested in assessment 1
      * Tracking them now will make win conditions easier to implement for assessment 2
      *
+     * @param
      * @param game              An instance of HustleGame
      * @param hoursStudied      The hours studied in the playthrough
      * @param hoursRecreational The hours of fun had in the playthrough
@@ -43,10 +47,9 @@ public class GameOverScreen implements Screen {
     public GameOverScreen(final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept, GameOverHelper gameOverHelper) {
         this.game = game;
 
-        // Initialize AchievementManagerHelper
-        AchievementManagerHelper achievementManagerHelper = new AchievementManagerHelper(hoursStudied, GameScreen.duckFeeds, GameScreen.fishCaught);
-        achievementManagerHelper.calculateAchievements();
-        bonusStreaks = achievementManagerHelper.getBonusStreaks();
+        // Initialize GameOverHelper
+//        GameOverHelper gameOverHelper = new GameOverHelper(hoursStudied, GameScreen.fishCaught, GameScreen.duckFeeds);
+        bonusStreaks = gameOverHelper.calculateBonusStreak();
 
         gameOverStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
         Gdx.input.setInputProcessor(gameOverStage);
@@ -98,22 +101,23 @@ public class GameOverScreen implements Screen {
 
         // Track if any achievements have been added
         boolean anyAchievements = false;
-        // Populate the table with achievements
-        if (GameScreen.fishCaught >= 5) {
+
+        // Populate the table with achievements using GameOverHelper methods
+        if (gameOverHelper.isBestFisher()) {
             anyAchievements = true;
             Label bestFisherLabel = new Label("Best Fisher +5 bonus", descriptionStyle);
             bestFisherLabel.setWrap(true);
             achievementsScoresTable.add(bestFisherLabel).width(240).padTop(25).padBottom(75).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
-        if (hoursStudied >= 7 && hoursStudied < 10) {
+        if (gameOverHelper.isBookWorm()) {
             anyAchievements = true;
             Label bookwormLabel = new Label("Bookworm +5 bonus", descriptionStyle);
             bookwormLabel.setWrap(true);
             achievementsScoresTable.add(bookwormLabel).width(240).padTop(25).padBottom(75).padLeft(50).padRight(-50);
             achievementsScoresTable.row();
         }
-        if (GameScreen.duckFeeds >= 5) {
+        if (gameOverHelper.isDuckDuckGo()) {
             anyAchievements = true;
             Label duckDuckGoLabel = new Label("Duck duck go +5 bonus", descriptionStyle);
             duckDuckGoLabel.setWrap(true);
@@ -162,8 +166,8 @@ public class GameOverScreen implements Screen {
             }
         }
 
-        // Calculating the overall score using AchievementManagerHelper
-        float finalScore = achievementManagerHelper.calculateFinalScore(ScoreManager.getTotalRecreationScore(), ScoreManager.getTotalEatScore());
+        // Calculating the overall score
+        float finalScore = calculateFinalScore(ScoreManager.getTotalRecreationScore(), ScoreManager.getTotalEatScore());
 
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
@@ -223,11 +227,6 @@ public class GameOverScreen implements Screen {
         gameOverWindow.setY((viewport.getWorldHeight() / 2) - (gameOverWindow.getHeight() / 2));
     }
 
-    /**
-     * Renders the screen and the background each frame
-     *
-     * @param delta The time in seconds since the last render.
-     */
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
@@ -240,19 +239,12 @@ public class GameOverScreen implements Screen {
         camera.update();
     }
 
-    /**
-     * Correctly resizes the onscreen elements when the window is resized
-     *
-     * @param width
-     * @param height
-     */
     @Override
     public void resize(int width, int height) {
         gameOverStage.getViewport().update(width, height);
         viewport.update(width, height);
     }
 
-    // Other required methods from Screen
     @Override
     public void show() {
         Gdx.input.setInputProcessor(gameOverStage);
@@ -273,5 +265,10 @@ public class GameOverScreen implements Screen {
     @Override
     public void dispose() {
         gameOverStage.dispose();
+    }
+
+    private float calculateFinalScore(int recreationScore, int eatScore) {
+        // Implement your final score calculation logic here
+        return (recreationScore + eatScore) / 2.0f;
     }
 }
