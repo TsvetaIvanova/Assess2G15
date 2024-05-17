@@ -23,9 +23,11 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: 'maven'
-        
+    - run: echo "Set up JDK"
+    
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+    - run: echo "Set up Gradle"
 
     #- name: Build with Gradle Wrapper
     #  run:  cd tests && ./gradlew build JacocoTestReport
@@ -35,12 +37,14 @@ jobs:
       with:
        name: HesHus-{{matrix.os}}.jar
        path: tests/build/libs/HesHus.jar
+    - run: echo "Uploaded .jar file"
 
     - name: Upload Jacoco Test Report
       uses: actions/upload-artifact@v4.3.2
       with:
         name: jacoco-test-report-${{matrix.os}}
         path: tests/build/jacoco/test/html
+    - run: echo "Uploaded Jacoco test report
 
     #- name: Upload Checkstyle Report
     #  uses: actions/upload-artifact@v4.3.2
