@@ -160,11 +160,11 @@ public class GameScreen implements Screen {
         energyGroup.setDebug(true);
         energyBar = new Image(new Texture(Gdx.files.internal(IMAGE_ENERGY_BAR)));
         Image energyBarOutline = new Image(new Texture(Gdx.files.internal(IMAGE_ENERGY_BAR_OUTLINE)));
-        energyBarOutline.setPosition(viewport.getWorldWidth()-energyBarOutline.getWidth() - 15, 15);
+        energyBarOutline.setPosition(camera.viewportWidth- camera.viewportWidth/20, camera.viewportHeight/40);
         energyBar.setPosition(energyBarOutline.getX()+16, energyBarOutline.getY()+16);
         energyGroup.addActor(energyBar);
         energyGroup.addActor(energyBarOutline);
-
+        energyGroup.debug();
 
         // Set initial time
         daySeconds = (8*60); // 8:00 am
