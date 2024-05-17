@@ -64,20 +64,28 @@ public class GetPlayerNameScreen implements Screen {
             @Override
             public boolean keyDown(int keycode) {
 
+                //enter
                 if (keycode == 66) {
                     //player has pressed enter
                     dispose();
                     game.setScreen(new LeaderboardScreen(game, playerName, finalScore));
                 }
 
+                //backspace
+                if (keycode == 67 && playerName.length() > 0) {
+                    playerName = playerName.substring(0, playerName.length() - 1);
+                }
+
                 //Only allow A-Z/0-9 input
                 //7 - 16 = 0-9, 29 - 54 = A - Z
-                if ((keycode >= 29 && keycode <= 54) || (keycode >= 7 && keycode <= 16)) {
+                //also enforce maximum player name length of 10
+                if (((keycode >= 29 && keycode <= 54) || (keycode >= 7 && keycode <= 16)) && playerName.length() < 10) {
                     playerName += Input.Keys.toString(keycode);
-                    nameTable.clear();
-                    nameTable.add(new Label(playerName, game.skin,"interaction")).padBottom(5);
-                    nameTable.row();
                 }
+
+                nameTable.clear();
+                nameTable.add(new Label(playerName, game.skin,"interaction")).padBottom(5);
+                nameTable.row();
 
                 return false;
             };
