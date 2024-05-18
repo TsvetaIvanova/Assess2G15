@@ -14,10 +14,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.skloch.domain.GameOverHelper;
-import com.skloch.domain.AchievementManagerHelper;
-
-import static com.skloch.game.GameScreen.duckFeeds;
-import static com.skloch.game.GameScreen.fishCaught;
 
 /**
  * A screen that displays the player's stats at the end of the game.
