@@ -93,5 +93,11 @@ project(":tests") {
 
     }
 
+    tasks.withType(Test) {
+        useJUnitPlatform()
+        jvmArgs '--illegal-access=warn'
+        jvmArgs '--add-opens=java.base/java.lang=ALL-UNNAMED' // Add other modules as needed
+    }
+
 
 }
