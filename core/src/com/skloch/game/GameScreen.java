@@ -70,10 +70,14 @@ public class GameScreen implements Screen {
 
     public static int fishCaught;
     public static int duckFeeds;
+    private boolean duckMessageShown = false;
+    private boolean fishMessageShown = false;
+    private boolean studyMessageShown = false;
 
     public void addDailyActivity(String activity) {
         dailyActivities.add(activity);
     }
+     private FeedbackMessageManager feedbackMessageManager;
 
     /**
      *
@@ -86,6 +90,7 @@ public class GameScreen implements Screen {
         this.game = game;
         this.game.gameScreen = this;
         eventManager = new EventManager(this);
+        feedbackMessageManager = new FeedbackMessageManager(game.skin, uiStage);
 
         // Scores
         hoursStudied = hoursRecreational = hoursSlept = 0;
@@ -388,6 +393,8 @@ public class GameScreen implements Screen {
             }
         }
 
+        updateFeedbackMessages();
+
 
         // Update UI elements
         uiStage.getViewport().apply();
@@ -418,6 +425,37 @@ public class GameScreen implements Screen {
 
 
         camera.update();
+    }
+ ///////////////////////////////////////////////////////
+// the update for the popup message about feedback /////
+/////////////////////////////////////////////////////////
+    public void updateFeedbackMessages() {
+        // Update the game state and check conditions
+       if (day == 2 && duckFeeds < 2 && !duckMessageShown) {
+            feedbackMessageManager.flashMessage("Why not feed a duck?", 5);
+            duckMessageShown = true;
+        } else if (day == 2 && duckFeeds > 2 && !duckMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you fed some ducks!", 5);
+            duckMessageShown = true;
+        }
+
+        // Fishing messages
+        if (day == 2 && fishCaught < 2 && !fishMessageShown) {
+            feedbackMessageManager.flashMessage("Want to go fishing?", 5);
+            fishMessageShown = true;
+        } else if (day == 2 && fishCaught > 2 && !fishMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you went fishing!", 5);
+            fishMessageShown = true;
+        }
+
+        // Studying messages
+        if (day == 2 && hoursStudied < 2 && !studyMessageShown) {
+            feedbackMessageManager.flashMessage("Have you studied yet?", 5);
+            studyMessageShown = true;
+        } else if (day == 2 && hoursStudied > 2 && !studyMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you did some studying!", 5);
+            studyMessageShown = true;
+        }
     }
 
 
