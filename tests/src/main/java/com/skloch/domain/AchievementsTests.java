@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class GameOverHelperTest {
+public class AchievementsTests {
 
     @Test
     public void canClassifyAsBookWormWhenEnoughHoursHaveBeenStudied() {

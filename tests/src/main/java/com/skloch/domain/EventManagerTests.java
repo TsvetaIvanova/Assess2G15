@@ -160,7 +160,7 @@ public class EventManagerTests {
 //    @Test
 //    public void canGoToSleep() {
 //        EventManager eventManager = new EventManager(gameScreen);
-//        when(gameScreen.getSeconds()).thenReturn((float) (7*60)); 
+//        when(gameScreen.getSeconds()).thenReturn((float) (7*60));
 //        when(gameScreen.getSleeping()).thenReturn(true);
 //        when(gameScreen.getWakeUpMessage()).thenReturn("Good morning!");
 //
