@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
     private Table uiTable;
     private Image energyBar;
     public DialogueBox dialogueBox;
-    public final Image blackScreen;
+    public  Image blackScreen;
     private boolean sleeping = false;
     public boolean catchUp = false, testGameOver = false;
     public int[] daysStudied = {0, 0, 0, 0, 0, 0, 0};
@@ -90,7 +90,7 @@ public class GameScreen implements Screen {
         this.game = game;
         this.game.gameScreen = this;
         eventManager = new EventManager(this);
-        feedbackMessageManager = new FeedbackMessageManager(game.skin, uiStage);
+
 
         // Scores
         hoursStudied = hoursRecreational = hoursSlept = 0;
@@ -287,6 +287,7 @@ public class GameScreen implements Screen {
             dialogueBox.show();
             dialogueBox.setText(getWakeUpMessage());
         }
+        feedbackMessageManager = new FeedbackMessageManager(game.skin, uiStage);
     }
 
     @Override
@@ -431,7 +432,7 @@ public class GameScreen implements Screen {
 /////////////////////////////////////////////////////////
     public void updateFeedbackMessages() {
         // Update the game state and check conditions
-       if (day == 2 && duckFeeds < 2 && !duckMessageShown) {
+       if (day == 5 && duckFeeds < 2 && !duckMessageShown) {
             feedbackMessageManager.flashMessage("Why not feed a duck?", 5);
             duckMessageShown = true;
         } else if (day == 2 && duckFeeds > 2 && !duckMessageShown) {
@@ -440,7 +441,7 @@ public class GameScreen implements Screen {
         }
 
         // Fishing messages
-        if (day == 2 && fishCaught < 2 && !fishMessageShown) {
+        if (day == 3 && fishCaught < 2 && !fishMessageShown) {
             feedbackMessageManager.flashMessage("Want to go fishing?", 5);
             fishMessageShown = true;
         } else if (day == 2 && fishCaught > 2 && !fishMessageShown) {

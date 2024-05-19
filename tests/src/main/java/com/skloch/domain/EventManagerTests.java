@@ -1,10 +1,13 @@
 package com.skloch.domain;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.skloch.game.DialogueBox;
 import com.skloch.game.EventManager;
 import com.skloch.game.GameScreen;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatcher;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -21,6 +24,7 @@ public class EventManagerTests {
     public void setUp() {
         gameScreen = mock(GameScreen.class);
         gameScreen.dialogueBox = mock(DialogueBox.class);
+        gameScreen.blackScreen = mock(Image.class);
     }
 
     @Test
@@ -82,19 +86,18 @@ public class EventManagerTests {
         verify(gameScreen.dialogueBox).setText("Wow! This chest is full of so many magical items! I wonder how they will help you out on your journey! Boy, this is an awfully long piece of text, I wonder if someone is testing something?\n...\n...\n...\nHow cool!");
     }
 
-//    @Test
-//    public void canMeetFriendsAtPiazza() {
-//        EventManager eventManager = new EventManager(gameScreen);
-//        when(gameScreen.getSeconds()).thenReturn((float) (9*60));
-//        when(gameScreen.getEnergy()).thenReturn(50);
-//
-//        eventManager.event("piazza-2");
-//
-//        verify(gameScreen.dialogueBox).setText("You talked about 2 hours for 2 hours!");
-//        verify(gameScreen).decreaseEnergy(20);
-//        verify(gameScreen).passTime(2 * 60);
-//        verify(gameScreen).addRecreationalHours(2);
-//    }
+    @Test
+    public void canMeetFriendsAtPiazzaAndTalkAboutCats() {
+        EventManager eventManager = new EventManager(gameScreen);
+        when(gameScreen.getSeconds()).thenReturn((float) (9*60));
+        when(gameScreen.getEnergy()).thenReturn(50);
+
+        eventManager.event("piazza-Cats");
+        ArgumentCaptor<String> dialogueTextCaptor= ArgumentCaptor.forClass(String.class);
+        verify(gameScreen.dialogueBox).setText(dialogueTextCaptor.capture());
+        assertTrue(dialogueTextCaptor.getValue().contains("You talked about cats"));
+
+    }
 
     @Test
     public void canStudyAtCompSciBuilding() {
@@ -157,21 +160,19 @@ public class EventManagerTests {
         assertEquals(1, GameScreen.duckFeeds);
     }
 
-//    @Test
-//    public void canGoToSleep() {
-//        EventManager eventManager = new EventManager(gameScreen);
-//        when(gameScreen.getSeconds()).thenReturn((float) (7*60));
-//        when(gameScreen.getSleeping()).thenReturn(true);
-//        when(gameScreen.getWakeUpMessage()).thenReturn("Good morning!");
-//
-//        eventManager.event("accommodation");
-//
-//        verify(gameScreen).setSleeping(true);
-//        verify(gameScreen.dialogueBox).hide();
-//        verify(gameScreen.dialogueBox).show();
-//        verify(gameScreen.dialogueBox).setText("Good morning!");
-//        verify(gameScreen).setSleeping(false);
-//    }
+    @Test
+    public void canGoToSleep() {
+        EventManager eventManager = new EventManager(gameScreen);
+        when(gameScreen.getSeconds()).thenReturn((float) (7*60));
+        when(gameScreen.getSleeping()).thenReturn(true);
+        when(gameScreen.getWakeUpMessage()).thenReturn("Good morning!");
+
+        eventManager.event("accommodation");
+
+        verify(gameScreen).setSleeping(true);
+        verify(gameScreen.dialogueBox).hide();
+
+    }
 
     @Test
     public void canInteractWithNPC1() {

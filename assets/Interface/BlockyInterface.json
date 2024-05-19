@@ -147,8 +147,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	}
 	dialogue: {
 		font: PixeloidMono_edited30px
+	},
+	feedback: {
+		font: Button_white
 	}
-}
+},
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 	default: {
 		hScrollKnob: scroll_bar
