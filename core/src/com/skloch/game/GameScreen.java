@@ -432,29 +432,29 @@ public class GameScreen implements Screen {
 /////////////////////////////////////////////////////////
     public void updateFeedbackMessages() {
         // Update the game state and check conditions
-       if (day == 5 && duckFeeds < 2 && !duckMessageShown) {
-            feedbackMessageManager.flashMessage("Why not feed a duck?", 5);
+       if (day == 4 && duckFeeds < 2 && !duckMessageShown) {
+            feedbackMessageManager.flashMessage("Why not feed a duck?", 4);
             duckMessageShown = true;
-        } else if (day == 2 && duckFeeds > 2 && !duckMessageShown) {
-            feedbackMessageManager.flashMessage("Nice one, seems like you fed some ducks!", 5);
+        } else if (day == 5 && duckFeeds > 2 && !duckMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you fed some ducks!", 4);
             duckMessageShown = true;
         }
 
         // Fishing messages
         if (day == 3 && fishCaught < 2 && !fishMessageShown) {
-            feedbackMessageManager.flashMessage("Want to go fishing?", 5);
+            feedbackMessageManager.flashMessage("Want to go fishing?", 4);
             fishMessageShown = true;
-        } else if (day == 2 && fishCaught > 2 && !fishMessageShown) {
-            feedbackMessageManager.flashMessage("Nice one, seems like you went fishing!", 5);
+        } else if (day == 5 && fishCaught > 2 && !fishMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you went fishing!", 4);
             fishMessageShown = true;
         }
 
         // Studying messages
         if (day == 2 && hoursStudied < 2 && !studyMessageShown) {
-            feedbackMessageManager.flashMessage("Have you studied yet?", 5);
+            feedbackMessageManager.flashMessage("Have you studied yet?", 4);
             studyMessageShown = true;
-        } else if (day == 2 && hoursStudied > 2 && !studyMessageShown) {
-            feedbackMessageManager.flashMessage("Nice one, seems like you did some studying!", 5);
+        } else if (day == 6 && hoursStudied > 3 && !studyMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you did some studying this week!", 4);
             studyMessageShown = true;
         }
     }
