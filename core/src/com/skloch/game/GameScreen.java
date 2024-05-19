@@ -160,7 +160,7 @@ public class GameScreen implements Screen {
         energyGroup.setDebug(true);
         energyBar = new Image(new Texture(Gdx.files.internal(IMAGE_ENERGY_BAR)));
         Image energyBarOutline = new Image(new Texture(Gdx.files.internal(IMAGE_ENERGY_BAR_OUTLINE)));
-        energyBarOutline.setPosition(viewport.getWorldWidth()-energyBarOutline.getWidth() - 15, 15);
+        energyBarOutline.setPosition(viewport.getWorldWidth()-energyBarOutline.getWidth() - 30, 15);
         energyBar.setPosition(energyBarOutline.getX()+16, energyBarOutline.getY()+16);
         energyGroup.addActor(energyBar);
         energyGroup.addActor(energyBarOutline);
@@ -777,10 +777,12 @@ public class GameScreen implements Screen {
      */
     public String getWakeUpMessage() {
         int daysLeft = 8 - day;
-        if (daysLeft != 1) {
+        if (daysLeft == 7) {
             return String.format("You have %d days left until your exam!\nRemember to eat, study and have fun, but don't overwork yourself!", daysLeft);
+        } else if (daysLeft == 1) {
+            return "Your exam is tomorrow! I hope you've been studying!";
         } else {
-            return "Your exam is tomorrow! I hope you've been studying! Remember not to overwork yourself and get enough sleep!";
+            return String.format("You have %d days left until your exam!");
         }
     }
 
