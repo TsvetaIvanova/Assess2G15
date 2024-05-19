@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
     private Table uiTable;
     private Image energyBar;
     public DialogueBox dialogueBox;
-    public final Image blackScreen;
+    public  Image blackScreen;
     private boolean sleeping = false;
     public boolean catchUp = false, testGameOver = false;
     public int[] daysStudied = {0, 0, 0, 0, 0, 0, 0};
@@ -70,10 +70,14 @@ public class GameScreen implements Screen {
 
     public static int fishCaught;
     public static int duckFeeds;
+    private boolean duckMessageShown = false;
+    private boolean fishMessageShown = false;
+    private boolean studyMessageShown = false;
 
     public void addDailyActivity(String activity) {
         dailyActivities.add(activity);
     }
+     private FeedbackMessageManager feedbackMessageManager;
 
     /**
      *
@@ -86,6 +90,7 @@ public class GameScreen implements Screen {
         this.game = game;
         this.game.gameScreen = this;
         eventManager = new EventManager(this);
+
 
         // Scores
         hoursStudied = hoursRecreational = hoursSlept = 0;
@@ -282,6 +287,7 @@ public class GameScreen implements Screen {
             dialogueBox.show();
             dialogueBox.setText(getWakeUpMessage());
         }
+        feedbackMessageManager = new FeedbackMessageManager(game.skin, uiStage);
     }
 
     @Override
@@ -388,6 +394,8 @@ public class GameScreen implements Screen {
             }
         }
 
+        updateFeedbackMessages();
+
 
         // Update UI elements
         uiStage.getViewport().apply();
@@ -418,6 +426,37 @@ public class GameScreen implements Screen {
 
 
         camera.update();
+    }
+ ///////////////////////////////////////////////////////
+// the update for the popup message about feedback /////
+/////////////////////////////////////////////////////////
+    public void updateFeedbackMessages() {
+        // Update the game state and check conditions
+       if (day == 4 && duckFeeds < 2 && !duckMessageShown) {
+            feedbackMessageManager.flashMessage("Why not feed a duck?", 4);
+            duckMessageShown = true;
+        } else if (day == 5 && duckFeeds > 2 && !duckMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you fed some ducks!", 4);
+            duckMessageShown = true;
+        }
+
+        // Fishing messages
+        if (day == 3 && fishCaught < 2 && !fishMessageShown) {
+            feedbackMessageManager.flashMessage("Want to go fishing?", 4);
+            fishMessageShown = true;
+        } else if (day == 5 && fishCaught > 2 && !fishMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you went fishing!", 4);
+            fishMessageShown = true;
+        }
+
+        // Studying messages
+        if (day == 2 && hoursStudied < 2 && !studyMessageShown) {
+            feedbackMessageManager.flashMessage("Have you studied yet?", 4);
+            studyMessageShown = true;
+        } else if (day == 6 && hoursStudied > 3 && !studyMessageShown) {
+            feedbackMessageManager.flashMessage("Nice one, seems like you did some studying this week!", 4);
+            studyMessageShown = true;
+        }
     }
 
 
