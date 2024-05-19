@@ -160,7 +160,7 @@ public class GameScreen implements Screen {
         energyGroup.setDebug(true);
         energyBar = new Image(new Texture(Gdx.files.internal(IMAGE_ENERGY_BAR)));
         Image energyBarOutline = new Image(new Texture(Gdx.files.internal(IMAGE_ENERGY_BAR_OUTLINE)));
-        energyBarOutline.setPosition(viewport.getWorldWidth()-energyBarOutline.getWidth() - 30, 15);
+        energyBarOutline.setPosition(viewport.getWorldWidth()-energyBarOutline.getWidth() - 15, 15);
         energyBar.setPosition(energyBarOutline.getX()+16, energyBarOutline.getY()+16);
         energyGroup.addActor(energyBar);
         energyGroup.addActor(energyBarOutline);
