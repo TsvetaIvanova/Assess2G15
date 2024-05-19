@@ -443,4 +443,8 @@ public class EventManager {
             game.blackScreen.addAction(Actions.fadeOut(3f));
         }
     }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
 }
