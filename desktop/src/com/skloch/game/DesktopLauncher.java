@@ -8,8 +8,8 @@ import com.skloch.game.HustleGame;
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		int WIDTH = 1280;
-		int HEIGHT = 720;
+		int WIDTH = 1920;
+		int HEIGHT = 1080;
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setWindowSizeLimits(1280/2, 720/2, 1920, 1080);
 		config.setTitle("Heslington Hustle");

@@ -47,6 +47,8 @@ public class EventManager {
         objectInteractions.put("tree", "Speak to the tree?");
         objectInteractions.put("fishing", "Catch a fish?");
         objectInteractions.put("ducks", "Feed the ducks?");
+        objectInteractions.put("NPC1", "Speak to Jerry?");
+        objectInteractions.put("NPC2", "Speak to Tilly?");
 
         // Some random topics that can be chatted about
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
@@ -98,6 +100,12 @@ public class EventManager {
             case "catch_up":
                 catchUpEvent(args);
                 break;
+            case "NPC1":
+                NPC1Event();
+                break;
+            case "NPC2":
+                NPC2Event();
+                break;
             default:
                 objectEvent(eventKey);
                 break;
@@ -132,6 +140,16 @@ public class EventManager {
     public void treeEvent() {
         game.dialogueBox.hideSelectBox();
         game.dialogueBox.setText("The tree doesn't say anything back.");
+    }
+
+    public void NPC1Event() {
+        game.dialogueBox.hideSelectBox();
+        game.dialogueBox.setText("Jerry: I dropped my phone in the lake...");
+    }
+
+    public void NPC2Event() {
+        game.dialogueBox.hideSelectBox();
+        game.dialogueBox.setText("Tilly: I'm too tired for this.");
     }
 
 
@@ -424,5 +442,9 @@ public class EventManager {
         } else {
             game.blackScreen.addAction(Actions.fadeOut(3f));
         }
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
     }
 }

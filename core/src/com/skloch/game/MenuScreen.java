@@ -52,7 +52,7 @@ public class MenuScreen implements Screen {
 
             // Title image
             titleImage = new Image(new Texture(Gdx.files.internal("title.png")));
-            titleImage.setPosition((viewport.getWorldWidth() / 2f) - (titleImage.getWidth() / 2f), 500);
+            titleImage.setPosition((viewport.getWorldWidth() / 2f) - (titleImage.getWidth() / 2f), 850);
             menuStage.addActor(titleImage);
 
             // Play menu music
@@ -86,7 +86,7 @@ public class MenuScreen implements Screen {
 
             // Add everything to the table using row() to go to a new line
             int buttonWidth = 340;
-            buttonTable.add(startButton).uniformX().width(buttonWidth).padBottom(10).padTop(280);
+            buttonTable.add(startButton).uniformX().width(buttonWidth).padBottom(10).padTop(400);
             buttonTable.row();
             buttonTable.add(settingsButton).uniformX().width(buttonWidth).padBottom(10);
             buttonTable.row();
@@ -227,11 +227,11 @@ public class MenuScreen implements Screen {
     public Window makeTutorialWindow(Table nextTable) {
         Window tutWindow = new Window("", game.skin);
         Table tutTable = new Table();
-        tutWindow.add(tutTable).prefHeight(600).prefWidth(800-20);
+        tutWindow.add(tutTable).prefHeight(900).prefWidth(800-20);
 
         // Title
         Label title = new Label("How to play", game.skin, "button");
-        tutTable.add(title).padTop(10);
+        tutTable.add(title).padTop(50);
         tutTable.row();
 
         // Table for things inside the scrollable widget
@@ -241,7 +241,7 @@ public class MenuScreen implements Screen {
         ScrollPane scrollWindow = new ScrollPane(scrollTable, game.skin);
         scrollWindow.setFadeScrollBars(false);
 
-        tutTable.add(scrollWindow).padTop(20).height(350).width(870);
+        tutTable.add(scrollWindow).padTop(20).height(650).width(870);
         tutTable.row();
 
         Label text = new Label(game.tutorialText, game.skin, "interaction");
@@ -250,11 +250,11 @@ public class MenuScreen implements Screen {
 
         // Exit button
         TextButton continueButton = new TextButton("Continue", game.skin);
-        tutTable.add(continueButton).bottom().width(300).padTop(10);
+        tutTable.add(continueButton).bottom().width(300).padBottom(50);
 
         tutWindow.pack();
 
-        tutWindow.setSize(900, 600);
+        tutWindow.setSize(900, 900);
 
         // Centre the window
         tutWindow.setX((viewport.getWorldWidth() / 2) - (tutWindow.getWidth() / 2));
@@ -289,17 +289,17 @@ public class MenuScreen implements Screen {
 
         // Prompt
         Label title = new Label("Select your avatar", game.skin, "button");
-        table.add(title).padBottom(120).padTop(80);
+        table.add(title).padBottom(180).padTop(80);
         table.row();
 
         // Image buttons
         Table buttonTable = new Table();
-        table.add(buttonTable).width(600);
+        table.add(buttonTable).width(750);
 
         ImageButton choice1 = new ImageButton(game.skin, "avatar1");
-        buttonTable.add(choice1).left().expandX();
+        buttonTable.add(choice1).left().expand().width(250).height(300);
         ImageButton choice2 = new ImageButton(game.skin, "avatar2");
-        buttonTable.add(choice2).right().expandX();
+        buttonTable.add(choice2).right().expand().width(250).height(300);
 
         choice1.addListener(new ChangeListener() {
             @Override

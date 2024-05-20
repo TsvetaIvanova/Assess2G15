@@ -137,7 +137,7 @@ public class DialogueBox {
             choiceIndex -= 1;
             // If statement to prevent the user from choosing outside the options range
             if (choiceIndex < 0) {
-                choiceIndex = 0;
+                choiceIndex = options.length-1;
             }
             optionPointers.get(choiceIndex).setVisible(true);
 
@@ -151,7 +151,7 @@ public class DialogueBox {
             choiceIndex += 1;
             // If statement to prevent the user from choosing outside the options range
             if (choiceIndex >= options.length) {
-                choiceIndex = options.length - 1;
+                choiceIndex = 0;
             }
             optionPointers.get(choiceIndex).setVisible(true);
         }
