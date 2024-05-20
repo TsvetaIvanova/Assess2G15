@@ -27,9 +27,9 @@ public class DialogueBox {
 
     public DialogueBox (Skin skin) {
         // Define some key values
-        int WIDTH = 800;
+        int WIDTH = 1600;
         int HEIGHT = 200;
-        MAXCHARS = 35;
+        MAXCHARS = 71;
         this.skin = skin;
 
         // Create the window for the dialogue box
@@ -274,7 +274,7 @@ public class DialogueBox {
      * @param text The text to format and push to the label
      */
     public void initialiseLabelText(String text) {
-        // Add a newline every 36 chars
+        // Add a newline every MAXCHARS(71) chars
         String newString = "";
         int lastSpace = 0;
         int index = 0;
