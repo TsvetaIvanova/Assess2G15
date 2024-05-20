@@ -494,8 +494,8 @@ public class GameScreen implements Screen {
         // escapeMenu.setDebug(true);
 
         // Centre
-        escapeMenu.setX((viewport.getWorldWidth() / 2) - (escapeMenu.getWidth() / 2));
-        escapeMenu.setY((viewport.getWorldHeight() / 2) - (escapeMenu.getHeight() / 2));
+        escapeMenu.setX((camera.viewportWidth/2) - (escapeMenu.getWidth() / 2));
+        escapeMenu.setY((camera.viewportHeight/2) - (escapeMenu.getHeight() / 2));
 
 
         // Create button listeners
