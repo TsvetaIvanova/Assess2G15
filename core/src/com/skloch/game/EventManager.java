@@ -302,6 +302,7 @@ public class EventManager {
         }
     }
     /**
+     * //NEW//-TEAM15-IMPLEMENTATION: method added in version 1.1
      * If the player has missed any days of studying, can catch up on work
      * Used alongside compSciEvent
      * Player has choice to catch up or not
