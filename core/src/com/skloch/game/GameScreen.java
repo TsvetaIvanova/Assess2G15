@@ -34,6 +34,7 @@ import com.skloch.domain.GameOverHelper;
 import java.util.HashSet;
 
 /**
+ * //EXTENDED//-TEAM15-IMPLEMENTATION: class extended in version 1.1
  * Handles the majority of the game logic, rendering and user inputs of the game.
  * Responsible for rendering the player and the map, and calling events.
  */
@@ -56,7 +57,6 @@ public class GameScreen implements Screen {
     public Stage uiStage;
     private Label interactionLabel;
     private EventManager eventManager;
-    //    private OptionDialogue optionDialogue;
     protected InputMultiplexer inputMultiplexer;
     private Table uiTable;
     private Image energyBar;
@@ -65,19 +65,22 @@ public class GameScreen implements Screen {
     private boolean sleeping = false;
     public boolean catchUp = false, testGameOver = false;
     public int[] daysStudied = {0, 0, 0, 0, 0, 0, 0};
-
     private final HashSet<String> dailyActivities = new HashSet<>();
-
     public static int fishCaught;
     public static int duckFeeds;
     private boolean duckMessageShown = false;
     private boolean fishMessageShown = false;
     private boolean studyMessageShown = false;
 
+    /**
+     * Adds a daily activity
+     * @param activity The actual activity
+     */
     public void addDailyActivity(String activity) {
         dailyActivities.add(activity);
     }
-     private FeedbackMessageManager feedbackMessageManager;
+    // entry for the popup messages manager instance
+    private FeedbackMessageManager feedbackMessageManager;
 
     /**
      *
@@ -120,7 +123,7 @@ public class GameScreen implements Screen {
             uiStage.addActor(uiTable);
         }
 
-        // Use AvatarSelector to select the player's avatar
+        // AvatarSelector to select the player's avatar
         AvatarSelector avatarSelector = new AvatarSelector();
         try {
             avatarSelector.selectAvatar(avatarChoice);
@@ -134,18 +137,6 @@ public class GameScreen implements Screen {
             player = new Player("avatar1"); // Default to avatar1 if invalid choice
         }
 
-        // USER INTERFACE
-
-        // Create and center the yes/no box that appears when interacting with objects
-//        optionDialogue = new OptionDialogue("", 400, this.game.skin, game.soundManager);
-//        Window optWin = optionDialogue.getWindow();
-//        optionDialogue.setPos(
-//                (viewport.getWorldWidth() / 2f) - (optWin.getWidth() / 2f),
-//                (viewport.getWorldHeight() / 2f) - (optWin.getHeight() / 2f) - 150
-//        );
-//        // Use addActor to add windows to the scene
-//        uiTable.addActor(optionDialogue.getWindow());
-//        optionDialogue.setVisible(false);
         if(!game.gameTest) {
             // Interaction label to prompt player
             interactionLabel = new Label("E - Interact", game.skin, "default");
@@ -157,8 +148,6 @@ public class GameScreen implements Screen {
                     15f);
             dialogueBox.hide();
         }
-
-
 
         // Load energy bar elements
         Group energyGroup = new Group();
@@ -287,6 +276,7 @@ public class GameScreen implements Screen {
             dialogueBox.show();
             dialogueBox.setText(getWakeUpMessage());
         }
+        // initializing the popup message manager
         feedbackMessageManager = new FeedbackMessageManager(game.skin, uiStage);
     }
 
@@ -304,7 +294,6 @@ public class GameScreen implements Screen {
     @Override
     public void render (float delta) {
         if (daySeconds >= 1440) { // End of the day
-            evaluateRecreationalActivities();
             daySeconds -= 1440;
             day += 1;
             dailyActivities.clear(); // Reset for the new day
@@ -320,14 +309,6 @@ public class GameScreen implements Screen {
         delta = 0.016667f;
         // Update sound timers
         game.soundManager.processTimers(delta);
-
-
-        // Load timer bar - needs fixing and drawing
-        //TextureAtlas blueBar = new TextureAtlas(Gdx.files.internal("Interface/BlueTimeBar/BlueBar.atlas"));
-        //Skin blueSkin = new Skin(blueBar);
-        //ProgressBar timeBar = new ProgressBar(0, 200, 1, false, blueSkin);
-        //timeBar.act(delta);
-
 
         // Increment the time and possibly day
         if (!escapeMenu.isVisible() && !sleeping) {
@@ -394,6 +375,7 @@ public class GameScreen implements Screen {
             }
         }
 
+        // update the popup messages
         updateFeedbackMessages();
 
 
@@ -416,22 +398,18 @@ public class GameScreen implements Screen {
         );
 
 
-        // Debug - Draw player hitboxes
-//         drawHitboxes();
-
-        // Debug - print the event value of the closest object to the player if there is one
-//        if (player.getClosestObject() != null) {
-//            System.out.println(player.getClosestObject().get("event"));
-//        }
-
-
         camera.update();
     }
- ///////////////////////////////////////////////////////
-// the update for the popup message about feedback /////
-/////////////////////////////////////////////////////////
+
+
+    /**
+     * //NEW//-TEAM15-IMPLEMENTATION: method implemented in version 1.1
+     * the update for the popup message about feedback regarding streaks, the
+     * player will get popping up messages in the middle of the black screen in transitions
+     * with little feedback messages
+     */
     public void updateFeedbackMessages() {
-        // Update the game state and check conditions
+        // duck activity condition
        if (day == 4 && duckFeeds < 2 && !duckMessageShown) {
             feedbackMessageManager.flashMessage("Why not feed a duck?", 4);
             duckMessageShown = true;
@@ -440,7 +418,7 @@ public class GameScreen implements Screen {
             duckMessageShown = true;
         }
 
-        // Fishing messages
+        // Fishing message condition
         if (day == 3 && fishCaught < 2 && !fishMessageShown) {
             feedbackMessageManager.flashMessage("Want to go fishing?", 4);
             fishMessageShown = true;
@@ -449,7 +427,7 @@ public class GameScreen implements Screen {
             fishMessageShown = true;
         }
 
-        // Studying messages
+        // Studying message condition
         if (day == 2 && hoursStudied < 2 && !studyMessageShown) {
             feedbackMessageManager.flashMessage("Have you studied yet?", 4);
             studyMessageShown = true;
@@ -583,21 +561,6 @@ public class GameScreen implements Screen {
         mapRenderer.dispose();
     }
 
-
-    private void evaluateRecreationalActivities() {
-
-        // Count specific activities
-        for (String activity : dailyActivities) {
-            if ("ducks".equals(activity)) {
-
-                duckFeeds++;
-                System.out.println("Duck fed: Total duck feeds = " + duckFeeds); // Print statement for debugging
-            } else if ("fishing".equals(activity)) {
-                fishCaught++;
-                System.out.println("Fish caught: Total fish caught = " + fishCaught); // Print statement for debugging
-            }
-        }
-    }
 
     /**
      * DEBUG - Draws the player's 3 hitboxes

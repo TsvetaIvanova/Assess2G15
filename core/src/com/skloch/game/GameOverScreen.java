@@ -164,7 +164,7 @@ public class GameOverScreen implements Screen {
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
         scoresTable.row();
         if (studyScoreLost != 0) {
-            scoresTable.add(new Label(String.valueOf(hoursStudied) + " (Missed Days -" + studyScoreLost + ")", game.skin, "button"));
+            scoresTable.add(new Label(hoursStudied + " (Missed Days -" + studyScoreLost + ")", game.skin, "button"));
         } else {
             scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(10);
         }
