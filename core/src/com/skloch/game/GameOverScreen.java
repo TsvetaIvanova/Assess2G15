@@ -20,6 +20,7 @@ import com.skloch.domain.GameOverHelper;
  * A screen to display a 'Game Over' screen when the player finishes their exams
  * Calculates a  final score, shows the player's stats to them, as requested in assessment 1
  * Displays 2 tables, the scores table and the achievements/streaks table
+ * Also displays a tally of hours spent sleeping, doing recreational activities, and studying
  */
 public class GameOverScreen implements Screen {
 
