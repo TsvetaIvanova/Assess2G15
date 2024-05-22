@@ -40,10 +40,11 @@ jobs:
         name: jacoco-test-report-${{matrix.os}}
         path: tests/build/jacoco/test/html
 
-    - name: Upload Checkstyle Report
-      uses: actions/upload-artifact@v4.3.2
-      with:
-        name: checkstyle-report
+    #- name: Upload Checkstyle Report
+    #  causes missing path syntax error
+     # uses: actions/upload-artifact@v4.3.2
+     # with:
+     # name: checkstyle-report
     
     
 
