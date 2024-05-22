@@ -24,9 +24,9 @@ import java.util.ArrayList;
 public class LeaderboardScreen implements Screen {
 
     private HustleGame game;
-    Stage leaderboardStage;
-    Viewport viewport;
-    OrthographicCamera camera;
+    private Stage leaderboardStage;
+    private Viewport viewport;
+    private OrthographicCamera camera;
 
     /**
      * Constructor - creates the LeaderboardScreen and takes over the window and input controller

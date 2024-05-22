@@ -34,7 +34,7 @@ public class Leaderboard {
         }
     }
 
-    FileHandle leaderboardFile;
+    private FileHandle leaderboardFile;
 
     /**
      * Constructor - create an instance of a Leaderboard

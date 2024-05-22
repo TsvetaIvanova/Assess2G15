@@ -24,11 +24,11 @@ public class GetPlayerNameScreen implements Screen {
     //and then passing that to LeaderboardScreen
 
     private HustleGame game;
-    float finalScore;
-    String playerName = "";
-    Stage getNameStage;
-    Viewport viewport;
-    OrthographicCamera camera;
+    public float finalScore;
+    public String playerName = "";
+    private Stage getNameStage;
+    private Viewport viewport;
+    private OrthographicCamera camera;
 
     /**
      * Constructor - creates the GetPlayerNameScreen and takes over the window and input controller
