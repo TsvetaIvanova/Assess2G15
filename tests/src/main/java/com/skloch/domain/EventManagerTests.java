@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -256,5 +258,59 @@ public class EventManagerTests {
         verify(gameScreen.dialogueBox).hideSelectBox();
         verify(gameScreen.dialogueBox).setText("Tilly: I'm too tired for this.");
     }
+
+    /**
+     * Tests if piazza event returns a random time
+     */
+    @Test
+    public void piazzaRandomEnergy() {
+        EventManager eventManager = new EventManager(gameScreen);
+        when(gameScreen.getEnergy()).thenReturn(100);
+        when(gameScreen.getSeconds()).thenReturn(600F);
+
+        int i =0;
+        boolean isEnergyRandom = false;
+        ArrayList<Integer> hours = new ArrayList<Integer>() ;
+        while ((i<10000 && isEnergyRandom==false)) {
+            eventManager.piazzaEvent(new String[]{"a", "b", "c"});
+            hours.add(eventManager.hours);
+            if ((hours.size()>2) && (hours.get(hours.size()-1)!=hours.get(hours.size()-2))){
+                isEnergyRandom=true;
+            }
+            i += 1;
+        }
+        assertTrue(isEnergyRandom);
+    }
+
+    /**
+     * Tests if player is told they are too tired to do an activity if their energy is too low
+     * Verifies displayed dialogue
+     */
+    @Test
+    public void attemptActivityTooTired(){
+        EventManager eventManager = new EventManager(gameScreen);
+        when(gameScreen.getEnergy()).thenReturn(0);
+        when(gameScreen.getSeconds()).thenReturn((float) (9*60));
+        eventManager.event("ducks");
+        verify(gameScreen.dialogueBox).setText("You're too tired to feed the ducks right now!");
+        eventManager.event("comp_sci");
+        verify(gameScreen.dialogueBox).setText("You are too tired to study right now!");
+        eventManager.event("piazza");
+        verify(gameScreen.dialogueBox).setText("You are too tired to meet your friends right now!");
+    }
+    /**
+     * Tests if player is told it's the wrong time to do an activity
+     * Verifies the dialogue
+     */
+    @Test
+    public void attemptActivityTooLate(){
+        EventManager eventManager = new EventManager(gameScreen);
+        when(gameScreen.getEnergy()).thenReturn(100);
+        when(gameScreen.getSeconds()).thenReturn(0F);
+        eventManager.event("piazza");
+        verify(gameScreen.dialogueBox).setText("It's too early in the morning to meet your friends, go to bed!");
+
+    }
+
 
 }
