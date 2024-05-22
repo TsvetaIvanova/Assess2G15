@@ -6,6 +6,8 @@ public class ScoreManager {
     private static double totalEatScore = 0, totalRecreationScore = 0;
     public static int[] dayEatScore = {0,0,0}, dayRecreationScore = {0,0,0};
 
+    private static double eatScoreTracker = 0, recScoreTracker = 0;
+
     public static void updateEatScore(){
         int sum = Arrays.stream(dayEatScore).sum();
         boolean allOnes = true;
@@ -19,6 +21,7 @@ public class ScoreManager {
 
         if(allOnes){
             totalEatScore += sum * 2;
+            eatScoreTracker += sum;
         }
         else{
             totalEatScore += sum;
@@ -39,12 +42,13 @@ public class ScoreManager {
         }
         if(numZeros == 0){
             multiplier = 2;
+            recScoreTracker += sum;
         } else if (numZeros == 1) {
             multiplier = 1;
         } else if (numZeros == 2) {
             multiplier = 0.5;
+            recScoreTracker -= 0.5 * sum;
         }
-
         totalRecreationScore += (sum * multiplier);
 
         resetDayRecreationScore();
@@ -62,17 +66,30 @@ public class ScoreManager {
         dayRecreationScore[2] = 0;
     }
 
-    public static int getTotalEatScore(){
-        return (int) totalEatScore;
+    public static double getTotalEatScore(){
+        return totalEatScore;
     }
 
-    public static int getTotalRecreationScore(){
-        return (int) totalRecreationScore;
+    public static double getTotalRecreationScore(){
+        return totalRecreationScore;
     }
     public static void setTotalEatScore(int val){
         totalEatScore = val;
     }
     public static void setTotalRecreationScore(int val){
         totalRecreationScore = val;
+    }
+
+    public static double getEatScoreTracker(){
+        return eatScoreTracker;
+    }
+    public static void setEatScoreTracker(double val){
+        eatScoreTracker = val;
+    }
+    public static double getRecScoreTracker(){
+        return recScoreTracker;
+    }
+    public static void setRecScoreTracker(double val){
+        recScoreTracker = val;
     }
 }
