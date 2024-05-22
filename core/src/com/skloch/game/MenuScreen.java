@@ -152,6 +152,8 @@ public class MenuScreen implements Screen {
 
         ScoreManager.setTotalRecreationScore(0);
         ScoreManager.setTotalEatScore(0);
+        ScoreManager.setEatScoreTracker(0);
+        ScoreManager.setRecScoreTracker(0);
     }
 
     /**

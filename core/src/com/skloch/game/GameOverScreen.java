@@ -158,24 +158,32 @@ public class GameOverScreen implements Screen {
         }
 
         // Calculating the overall score
-        float finalScore = ScoreManager.getTotalRecreationScore() + ScoreManager.getTotalEatScore() + hoursStudied;
+        float finalScore = (float) (ScoreManager.getTotalRecreationScore() + (float) (ScoreManager.getTotalEatScore()) + hoursStudied);
 
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
         scoresTable.row();
         if (studyScoreLost != 0) {
-            scoresTable.add(new Label(String.valueOf(hoursStudied) + " (Missed Days -" + studyScoreLost + ")", game.skin, "button"));
+            scoresTable.add(new Label(String.valueOf(hoursStudied) + " (Missed Days: -" + studyScoreLost + ")", game.skin, "button")).padBottom(10);
         } else {
             scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(10);
         }
         scoresTable.row();
         scoresTable.add(new Label("Recreational Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(10);
+        if(ScoreManager.getRecScoreTracker() != 0){
+            scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()) + " (Bonus Points:" + ScoreManager.getRecScoreTracker() + ")", game.skin, "button")).padBottom(10);
+        }else{
+            scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalRecreationScore()), game.skin, "button")).padBottom(10);
+        }
         scoresTable.row();
         scoresTable.add(new Label("Eating Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
+        if(ScoreManager.getEatScoreTracker() != 0){
+            scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()) + " (Bonus Points:" + ScoreManager.getEatScoreTracker() + ")", game.skin, "button")).padBottom(10);
+        }else{
+            scoresTable.add(new Label(String.valueOf(ScoreManager.getTotalEatScore()), game.skin, "button")).padBottom(10);
+        }
         scoresTable.row();
         scoresTable.add(new Label("Final Score", game.skin, "interaction")).padBottom(5);
         scoresTable.row();
