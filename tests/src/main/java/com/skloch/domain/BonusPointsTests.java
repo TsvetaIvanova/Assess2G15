@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-@RunWith(org.example.GdxTestRunner.class)
 public class BonusPointsTests {
     @Test
     public void eatingGivesBonusScore(){
