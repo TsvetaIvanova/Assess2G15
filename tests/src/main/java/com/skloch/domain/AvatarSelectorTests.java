@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * //NEW//-TEAM15-IMPLEMENTATION: class added version 1.1
  * This class contains unit tests for the AvatarSelector helper class,
  * that contains the logic for the selection of avatars in the beginning of the game.
  * It verifies the correct selection of avatars and handling of invalid selections.

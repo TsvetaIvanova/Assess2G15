@@ -14,11 +14,20 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
-
+/**
+ * //NEW//-TEAM15-IMPLEMENTATION: class added version 1.1
+ * This class contains unit tests for the EventManager class.
+ * It verifies the correct handling of various game locations and confirms that it
+ * is possible to interact with them.
+ */
 
 public class EventManagerTests {
 
     private GameScreen gameScreen;
+
+    /**
+     * Sets up the test environment by initializing the GameScreen instance and its components.
+     */
 
     @Before
     public void setUp() {
@@ -26,6 +35,11 @@ public class EventManagerTests {
         gameScreen.dialogueBox = mock(DialogueBox.class);
         gameScreen.blackScreen = mock(Image.class);
     }
+
+    /**
+     * Tests if the player can choose to catch up on studies.
+     * Verifies the effects on energy, study hours, and game state.
+     */
 
     @Test
     public void canChooseToCatchUpInStudies() {
@@ -48,6 +62,11 @@ public class EventManagerTests {
 
     }
 
+    /**
+     * Tests if the player can choose not to catch up on studies.
+     * Verifies the effects on energy, study hours, and game state.
+     */
+
     @Test
     public void canChooseNotToCatchUpInStudies() {
         EventManager eventManager = new EventManager(gameScreen);
@@ -69,6 +88,11 @@ public class EventManagerTests {
 
     }
 
+    /**
+     * Tests if the player can interact with a tree.
+     * Verifies the dialogue displayed.
+     */
+
     @Test
     public void canInteractWithTree() {
         EventManager eventManager = new EventManager(gameScreen);
@@ -77,6 +101,10 @@ public class EventManagerTests {
         verify(gameScreen.dialogueBox).setText("The tree doesn't say anything back.");
     }
 
+    /**
+     * Tests if the player can interact with a chest.
+     * Verifies the dialogue displayed.
+     */
 
     @Test
     public void canInteractWithChest() {
@@ -85,6 +113,11 @@ public class EventManagerTests {
         verify(gameScreen.dialogueBox).hideSelectBox();
         verify(gameScreen.dialogueBox).setText("Wow! This chest is full of so many magical items! I wonder how they will help you out on your journey! Boy, this is an awfully long piece of text, I wonder if someone is testing something?\n...\n...\n...\nHow cool!");
     }
+
+    /**
+     * Tests if the player can meet friends at Piazza and talk about cats.
+     * Verifies the dialogue displayed and energy changes.
+     */
 
     @Test
     public void canMeetFriendsAtPiazzaAndTalkAboutCats() {
@@ -98,6 +131,11 @@ public class EventManagerTests {
         assertTrue(dialogueTextCaptor.getValue().contains("You talked about cats"));
 
     }
+
+    /**
+     * Tests if the player can study at the CompSci building.
+     * Verifies the effects on energy, study hours, and game state.
+     */
 
     @Test
     public void canStudyAtCompSciBuilding() {
@@ -117,6 +155,11 @@ public class EventManagerTests {
         verify(gameScreen).passTime(2 * 60);
     }
 
+    /**
+     * Tests if the player can eat at the Ron Cooke Hub.
+     * Verifies the effects on energy and game state and dialogueBox text.
+     */
+
     @Test
     public void canEatAtRonCookeHub() {
         EventManager eventManager = new EventManager(gameScreen);
@@ -130,6 +173,11 @@ public class EventManagerTests {
         verify(gameScreen).decreaseEnergy(10);
         verify(gameScreen).passTime(60);
     }
+
+    /**
+     * Tests if the player can go fishing.
+     * Verifies the effects on energy, recreational hours, and game state and dialogueBox text.
+     */
 
     @Test
     public void canGoFishing() {
@@ -145,6 +193,10 @@ public class EventManagerTests {
         assertEquals(1, GameScreen.fishCaught);
     }
 
+    /**
+     * Tests if the player can feed ducks.
+     * Verifies the effects on dialogueBox text, energy, recreational hours, and game state.
+     */
 
     @Test
     public void canFeedDucks() {
@@ -160,6 +212,11 @@ public class EventManagerTests {
         assertEquals(1, GameScreen.duckFeeds);
     }
 
+    /**
+     * Tests if the player can go to sleep.
+     * Verifies the effects on game state.
+     */
+
     @Test
     public void canGoToSleep() {
         EventManager eventManager = new EventManager(gameScreen);
@@ -174,6 +231,11 @@ public class EventManagerTests {
 
     }
 
+    /**
+     * Tests if the player can interact with NPC1.
+     * Verifies the dialogue displayed.
+     */
+
     @Test
     public void canInteractWithNPC1() {
         EventManager eventManager = new EventManager(gameScreen);
@@ -181,6 +243,11 @@ public class EventManagerTests {
         verify(gameScreen.dialogueBox).hideSelectBox();
         verify(gameScreen.dialogueBox).setText("Jerry: I dropped my phone in the lake...");
     }
+
+    /**
+     * Tests if the player can interact with NPC2.
+     * Verifies the dialogue displayed.
+     */
 
     @Test
     public void canInteractWithNPC2() {

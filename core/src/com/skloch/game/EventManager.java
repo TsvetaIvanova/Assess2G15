@@ -20,7 +20,7 @@ public class EventManager {
 
     /**
      * //EXTENDED//-TEAM15-IMPLEMENTATION: class extended in version 1.1
-     * A class that maps Object's event strings to actual Java functions.
+     * A constructor that maps Object's event strings to actual Java functions.
      * To run a function call event(eventString), to add arguments add dashes.
      * E.g. a call to the Piazza function with an arg of 1 would be: "piazza-1"
      * Which the function interprets as "study at the piazza for 1 hour".

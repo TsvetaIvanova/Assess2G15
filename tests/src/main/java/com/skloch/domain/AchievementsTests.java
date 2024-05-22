@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 /**
+ * //NEW//-TEAM15-IMPLEMENTATION: class added version 1.1
  * This class contains unit tests for the GameOverHelper class, that itself abstracts the logic in GameOverScreen
  * for the streaks in the game.
  * It verifies the correct classification of achievements and the calculation of bonus streaks.
