@@ -140,10 +140,10 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		font: interaction_font
 	}
 	time: {
-		font: Time_40px
+		font: Button_white
 	}
 	day: {
-		font: time_25px
+		font: Button_white
 	}
 	dialogue: {
 		font: PixeloidMono_edited30px

@@ -194,7 +194,7 @@ public class GameScreen implements Screen {
             Table timeTable = new Table();
             timeTable.setFillParent(true);
             timeLabel = new Label(formatTime((int) daySeconds), game.skin, "time");
-            dayLabel = new Label(String.format("Day %d", day), game.skin, "day");
+            dayLabel = new Label(String.format("DAY %d", day), game.skin, "day");
             timeTable.add(timeLabel).uniformX();
             timeTable.row();
             timeTable.add(dayLabel).uniformX().left().padTop(2);
