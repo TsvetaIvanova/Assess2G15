@@ -48,8 +48,6 @@ public class GameScreen implements Screen {
     private float daySeconds = 0; // Current seconds elapsed in day
     private int day = 1; // What day the game is on
     private Label timeLabel, dayLabel;
-    private final Table countTable;
-    private Label studyLabel, recreationLabel, sleptLabel;
     public Player player;
     private Window escapeMenu;
     private Viewport viewport;
@@ -163,22 +161,7 @@ public class GameScreen implements Screen {
         // Set initial time
         daySeconds = (8*60); // 8:00 am
 
-        //Counter display table
-        countTable = new Table();
         if(!game.gameTest) {
-            countTable.setFillParent(true);
-            studyLabel = new Label(String.format("Study Hours %d", hoursStudied), game.skin, "day");
-            recreationLabel = new Label(String.format("Recreation Hours %d", hoursRecreational), game.skin, "day");
-            sleptLabel = new Label(String.format("Hours slept %d", hoursSlept), game.skin, "day");
-            countTable.setFillParent(true);
-            countTable.add(studyLabel).uniformX();
-            countTable.row();
-            countTable.add(recreationLabel).uniformX();
-            countTable.row();
-            countTable.add(sleptLabel).uniformX();
-            countTable.top().right().padRight(10).padTop(10);
-
-
             // Table to display date and time
             Table timeTable = new Table();
             timeTable.setFillParent(true);
@@ -193,7 +176,6 @@ public class GameScreen implements Screen {
             uiTable.add(interactionLabel).padTop(300);
             uiStage.addActor(energyGroup);
             uiStage.addActor(timeTable);
-            uiStage.addActor(countTable);
             uiStage.addActor(blackScreen);
             uiStage.addActor(dialogueBox.getWindow());
             uiStage.addActor(dialogueBox.getSelectBox().getWindow());
@@ -278,7 +260,6 @@ public class GameScreen implements Screen {
             // initializing the popup message manager
             feedbackMessageManager = new FeedbackMessageManager(game.skin, uiStage);
         }
-
     }
 
     @Override
@@ -743,7 +724,6 @@ public class GameScreen implements Screen {
      */
     public void addStudyHours(int hours) {
         hoursStudied += hours;
-        studyLabel.setText(String.format("Study Hours %d", hoursStudied));
     }
 
     /**
@@ -752,7 +732,6 @@ public class GameScreen implements Screen {
      */
     public void addRecreationalHours(int hours) {
         hoursRecreational += hours;
-        recreationLabel.setText(String.format("Recreational Hours %d", hoursRecreational));
     }
 
     /**
@@ -810,7 +789,6 @@ public class GameScreen implements Screen {
      */
     public void addSleptHours(int hours) {
         hoursSlept += hours;
-        sleptLabel.setText(String.format("Slept Hours %d", hoursSlept));
     }
 
     /**
@@ -833,7 +811,7 @@ public class GameScreen implements Screen {
     public void GameOver() {
         if(!game.gameTest) {
             GameOverHelper gameOverHelper = new GameOverHelper();
-            game.setScreen(new GameOverScreen(game, hoursStudied, gameOverHelper));
+            game.setScreen(new GameOverScreen(game, hoursStudied, hoursRecreational, hoursSlept, gameOverHelper));
         }
         else{
             testGameOver = true;

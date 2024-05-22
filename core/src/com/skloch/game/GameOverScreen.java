@@ -39,7 +39,7 @@ public class GameOverScreen implements Screen {
      * @param hoursStudied      The hours studied in the playthrough
      * @param gameOverHelper    an instance of a helper class abstracting the logic from ui for the GameOver
      */
-    public GameOverScreen(final HustleGame game, int hoursStudied, GameOverHelper gameOverHelper) {
+    public GameOverScreen(final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept, GameOverHelper gameOverHelper) {
         this.game = game;
         bonusStreaks = gameOverHelper.calculateBonusStreak();
         gameOverStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
@@ -67,18 +67,12 @@ public class GameOverScreen implements Screen {
         achievementsTable.setFillParent(true);
         achievementsTable.setVisible(true);
 
+
         // Title
         Label title = new Label("Game Over!", game.skin, "button");
         gameOverTable.add(title).padTop(30);
         gameOverTable.row();
 
-        // Achievements table title set up
-        Label.LabelStyle style = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
-        Label aTitle = new Label("Achievements!", style);
-        title.setFontScale(0.79f);
-        achievementsTable.add(aTitle).padTop(35).padLeft(-10).padRight(10).center();
-        achievementsTable.row();
-        achievementsTable.top();
 
         // Achievements scores table setup
         Table achievementsScoresTable = new Table();
@@ -133,6 +127,21 @@ public class GameOverScreen implements Screen {
         // Pack to apply sizes and positions
         achievementsTable.pack();
         achievementsScoresTable.pack();
+
+        //Counter display table
+        Window counterWindow = new Window("", game.skin);
+        Label hoursLabel = new Label(String.format("Hours studied       %1$s\n" + "Hours having fun %2$s\n" + "Hours Sleeping    %3$s", hoursStudied,hoursRecreational,hoursSlept), new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class)));
+        counterWindow.add(hoursLabel);
+        counterWindow.setBounds(0, camera.viewportHeight-camera.viewportHeight/10, camera.viewportHeight/3, camera.viewportWidth/8);
+        gameOverStage.addActor(counterWindow);
+
+        // Achievements table title set up
+        Label.LabelStyle style = new Label.LabelStyle(game.skin.get("button", Label.LabelStyle.class));
+        Label aTitle = new Label("Achievements!", style);
+        title.setFontScale(0.79f);
+        achievementsTable.add(aTitle).padTop(35).padLeft(-10).padRight(10).center();
+        achievementsTable.row();
+        achievementsTable.top();
 
         // creating the scores table
         Table scoresTable = new Table();
