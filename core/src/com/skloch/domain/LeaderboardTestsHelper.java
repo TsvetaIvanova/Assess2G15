@@ -37,6 +37,25 @@ public class LeaderboardTestsHelper {
         return count;
     }
 
+    public static boolean mockAddingToLeaderboard(int inputScore) {
+
+        boolean gettingAdded = false;
+
+        String fileContents = leaderboardFileReference.readString();
+        String[] lines = fileContents.split("\n");
+        for (String s : lines) {
+            //csv file so split by comma - [0] = name, [1] = score
+            String[] lineContent = s.trim().split(",");
+            float lineScore = Float.parseFloat(lineContent[1]);
+
+            if (inputScore > lineScore) {
+                gettingAdded = true;
+            }
+        }
+
+        return gettingAdded;
+    }
+
 
 
 }

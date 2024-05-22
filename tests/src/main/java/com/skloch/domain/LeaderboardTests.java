@@ -29,4 +29,17 @@ public class LeaderboardTests {
         assertTrue("Leaderboard has more than 10 entries", entries <= 10 && entries >= 0);
     }
 
+    @Test
+    public void addToLeaderboardLowScore() {
+        boolean added = LeaderboardTestsHelper.mockAddingToLeaderboard(0);
+        //THIS IS ASSUMING A SCORE OF 0 SHOULD NOT BE ADDED
+        //IF THERE IS <10 ENTRIES OR A 0 IN THE LEADERBOARD THIS TEST WILL FAIL
+        assertFalse("Score of 0 added to leaderboard", added);
+    }
+
+    @Test
+    public void addToLeaderboardHighScore() {
+        boolean added = LeaderboardTestsHelper.mockAddingToLeaderboard(1000);
+        assertTrue("Score of 1000 not added to leaderboard", added);
+    }
 }
