@@ -49,7 +49,11 @@ public class HustleGame extends Game {
 		WIDTH = width;
 		HEIGHT = height;
 	}
-
+	//default values
+	public HustleGame(){
+		WIDTH = 1920;
+		HEIGHT = 1080;
+	}
 	/**
 	 * Loads resources used throughout the game.
 	 * Creates a new spritebatch

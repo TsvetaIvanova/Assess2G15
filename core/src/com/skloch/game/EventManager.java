@@ -16,7 +16,7 @@ public class EventManager {
     public HashMap<String, Integer> activityEnergies;
     private final HashMap<String, String> objectInteractions;
     private final Array<String> talkTopics;
-    private int hours;
+    public int hours;
 
     /**
      * A class that maps Object's event strings to actual Java functions.
@@ -225,7 +225,7 @@ public class EventManager {
             } else {
                 // Say that the player chatted about this topic for 1-3 hours
                 // RNG factor adds a slight difficulty (may consume too much energy to study)
-                int hours = ThreadLocalRandom.current().nextInt(1, 4);
+                hours = ThreadLocalRandom.current().nextInt(1, 4);
                 game.dialogueBox.setText(String.format("You talked about %s for %d hours!", args[1].toLowerCase(), hours));
                 ScoreManager.dayRecreationScore[0]++;
                 game.decreaseEnergy(energyCost * hours);
