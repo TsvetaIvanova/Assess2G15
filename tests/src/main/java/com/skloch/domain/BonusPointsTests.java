@@ -7,7 +7,15 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+/**
+ * //NEW//-TEAM15-IMPLEMENTATION: class added version 1.1
+ * This class contains unit tests for the ScoreManager class
+ * It tests whether the correct bonuses are applied when performing eating and recreational activities
+ */
 public class BonusPointsTests {
+    /**
+     * Checks for correct bonus points for combinations of eating
+     */
     @Test
     public void eatingGivesBonusScore(){
         //Checks 3 breakfast
@@ -31,6 +39,9 @@ public class BonusPointsTests {
         Assert.assertTrue(badScore < goodScore);
     }
 
+    /**
+     * Checks for correct bonus points for combinations of recreational activities
+     */
     @Test
     public void recGivesBonusScore(){
         //Checks 3 of same recreation

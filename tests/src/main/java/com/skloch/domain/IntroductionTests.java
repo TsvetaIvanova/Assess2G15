@@ -9,11 +9,15 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 @RunWith(org.example.GdxTestRunner.class)
 public class IntroductionTests {
+    /**
+     * //NEW//-TEAM15-IMPLEMENTATION: class added version 1.1
+     * This class contains unit tests for the tutorial
+     * It verifies whether the file correctly formats the string for the tutorial
+     */
 
-    @Before
-    public void setUp(){
-
-    }
+    /**
+     * Tests whether the string collected from the file is the same as the string wanted
+     */
     @Test
     public void correctTutorialString(){
         HustleGame game = new HustleGame(1920, 1080);
