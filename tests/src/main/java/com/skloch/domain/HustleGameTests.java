@@ -14,7 +14,7 @@ public class HustleGameTests {
      * Checks HustleGame can be made without exceptions
      */
     @Test
-    public void initialises() {
+    public void hustleGameInitialises() {
         HustleGame testGame = new HustleGame();
     }
     /**
