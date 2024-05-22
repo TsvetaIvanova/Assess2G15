@@ -16,8 +16,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.skloch.domain.GameOverHelper;
 
 /**
- * A screen that displays the player's stats at the end of the game.
- * Currently doesn't calculate a score
+ //EXTENDED//-TEAM15-IMPLEMENTATION: class extended in version 1.1
+ * A screen to display a 'Game Over' screen when the player finishes their exams
+ * Calculates a  final score, shows the player's stats to them, as requested in assessment 1
+ * Displays 2 tables, the scores table and the achievements/streaks table
  */
 public class GameOverScreen implements Screen {
 
@@ -25,31 +27,23 @@ public class GameOverScreen implements Screen {
     Stage gameOverStage;
     Viewport viewport;
     OrthographicCamera camera;
-
     int bonusStreaks = 0, studyScoreLost = 0;
 
     /**
-     * A screen to display a 'Game Over' screen when the player finishes their exams
-     * Currently does not calculate a score, just shows the player's stats to them, as requested in assessment 1
-     * Tracking them now will make win conditions easier to implement for assessment 2
+     * //EXTENDED//-TEAM15-IMPLEMENTATION: constructor extended in version 1.1
+     * Creating a stage to display a 'Game Over' screen when the player finishes their exams
+     * Calculates a  final score, shows the player's stats to them, as requested in assessment 1
+     * Displays 2 tables, the scores table and the achievements/streaks table
      *
-     * @param
      * @param game              An instance of HustleGame
      * @param hoursStudied      The hours studied in the playthrough
-     * @param hoursRecreational The hours of fun had in the playthrough
-     * @param hoursSlept        The hours slept in the playthrough
-     * @param gameOverHelper
+     * @param gameOverHelper    an instance of a helper class abstracting the logic from ui for the GameOver
      */
-    public GameOverScreen(final HustleGame game, int hoursStudied, int hoursRecreational, int hoursSlept, GameOverHelper gameOverHelper) {
+    public GameOverScreen(final HustleGame game, int hoursStudied, GameOverHelper gameOverHelper) {
         this.game = game;
-
-        // Initialize GameOverHelper
-//        GameOverHelper gameOverHelper = new GameOverHelper(hoursStudied, GameScreen.fishCaught, GameScreen.duckFeeds);
         bonusStreaks = gameOverHelper.calculateBonusStreak();
-
         gameOverStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
         Gdx.input.setInputProcessor(gameOverStage);
-
         camera = new OrthographicCamera();
         viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
@@ -140,6 +134,7 @@ public class GameOverScreen implements Screen {
         achievementsTable.pack();
         achievementsScoresTable.pack();
 
+        // creating the scores table
         Table scoresTable = new Table();
         gameOverTable.add(scoresTable).prefHeight(380).prefWidth(450);
         gameOverTable.row();
@@ -148,10 +143,10 @@ public class GameOverScreen implements Screen {
         String studyMessage;
         if (hoursStudied >= 8 && hoursStudied <= 10) {
             hoursStudied *= 2;
-            studyMessage = "You studied enough! 2 x bonus " + hoursStudied;
+            studyMessage = "You studied enough!" + hoursStudied;
         } else if (hoursStudied > 10) {
             hoursStudied /= 2;
-            studyMessage = "You overworked and were not very productive " + hoursStudied + "/ 2";
+            studyMessage = "You overworked and were not very productive " + hoursStudied;
         } else {
             studyMessage = "You did not study enough!";
         }
@@ -163,7 +158,7 @@ public class GameOverScreen implements Screen {
         }
 
         // Calculating the overall score
-        float finalScore = calculateFinalScore(ScoreManager.getTotalRecreationScore(), ScoreManager.getTotalEatScore());
+        float finalScore = ScoreManager.getTotalRecreationScore() + ScoreManager.getTotalEatScore() + hoursStudied;
 
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
@@ -263,8 +258,5 @@ public class GameOverScreen implements Screen {
         gameOverStage.dispose();
     }
 
-    private float calculateFinalScore(int recreationScore, int eatScore) {
-        // Implement your final score calculation logic here
-        return (recreationScore + eatScore) / 2.0f;
-    }
+
 }

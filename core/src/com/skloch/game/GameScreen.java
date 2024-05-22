@@ -868,8 +868,8 @@ public class GameScreen implements Screen {
      */
     public void GameOver() {
         if(!game.gameTest) {
-            GameOverHelper gameOverHelper = new GameOverHelper(hoursStudied);
-            game.setScreen(new GameOverScreen(game, hoursStudied, hoursRecreational, hoursSlept, gameOverHelper));
+            GameOverHelper gameOverHelper = new GameOverHelper();
+            game.setScreen(new GameOverScreen(game, hoursStudied, gameOverHelper));
         }
         else{
             testGameOver = true;

@@ -11,7 +11,7 @@ public class GameOverHelper {
         this.duckFeeds = duckFeeds;
     }
 
-    public GameOverHelper(int hoursStudied) {
+    public GameOverHelper() {
     }
 
     public int calculateBonusStreak() {
