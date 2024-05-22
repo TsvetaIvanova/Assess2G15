@@ -69,11 +69,19 @@ public class AchievementsTests {
         assertFalse("It shouldn't have been classified as Duck Duck Go", gameOverHelper.isDuckDuckGo());
     }
 
+    /**
+     * Tests the calculation of total bonus streaks when multiple achievements are met.
+     */
+
     @Test
     public void calculateTotalBonusStreaks() {
         GameOverHelper gameOverHelper = new GameOverHelper(8, 5, 5);
         assertEquals("The total bonus streaks should be 15", 15, gameOverHelper.calculateBonusStreak());
     }
+
+    /**
+     * Tests the calculation of total bonus streaks when no achievements are met.
+     */
 
     @Test
     public void calculateTotalBonusStreaksWhenNoAchievements() {
