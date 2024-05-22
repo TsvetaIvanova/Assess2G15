@@ -262,6 +262,7 @@ public class EventManager {
     /**
      * The event to be run when interacting with the computer science building
      * Gives the player the option to study for 2, 3 or 4 hours
+     * If the player has missed a day, allow player to catch up on work, once per game.
      * @param args
      */
     public void compSciEvent(String[] args) {
@@ -300,7 +301,12 @@ public class EventManager {
             game.dialogueBox.setText("It's too early in the morning to study, go to bed!");
         }
     }
-
+    /**
+     * If the player has missed any days of studying, can catch up on work
+     * Used alongside compSciEvent
+     * Player has choice to catch up or not
+     * @param args
+     */
     public void catchUpEvent(String[] args){
         int energyCost = activityEnergies.get("studying");
         if(Integer.parseInt(args[1]) == 1){

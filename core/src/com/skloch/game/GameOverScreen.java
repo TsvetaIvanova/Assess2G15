@@ -169,6 +169,9 @@ public class GameOverScreen implements Screen {
         // Calculating the overall score
         float finalScore = (float) (ScoreManager.getTotalRecreationScore() + (float) (ScoreManager.getTotalEatScore()) + hoursStudied);
 
+        /**
+         * Each score to be displayed shows bonus points alongside it, only if bonus points have been achieved
+         */
         // Display scores
         scoresTable.add(new Label(studyMessage, game.skin, "interaction")).padBottom(5);
         scoresTable.row();
