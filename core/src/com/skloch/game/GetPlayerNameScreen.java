@@ -13,6 +13,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/**
+ * //NEW//-TEAM15-IMPLEMENTATION: class added in version 1.1
+ * This class defines the screen where a player can type their name
+ * This name is then passed to LeaderboardScreen, where it is used along
+ * with their final score to update the leaderboard.csv file
+ */
 public class GetPlayerNameScreen implements Screen {
     //this whole class is for displaying a screen to get the player's name
     //and then passing that to LeaderboardScreen
@@ -24,6 +30,11 @@ public class GetPlayerNameScreen implements Screen {
     Viewport viewport;
     OrthographicCamera camera;
 
+    /**
+     * Constructor - creates the GetPlayerNameScreen and takes over the window and input controller
+     * @param game the current game instance
+     * @param finalScore the player's final score
+     */
     public GetPlayerNameScreen (final HustleGame game, float finalScore) {
         this.game = game;
         this.finalScore = finalScore;
@@ -60,18 +71,20 @@ public class GetPlayerNameScreen implements Screen {
         inputWindow.setX((viewport.getWorldWidth() / 2) - (inputWindow.getWidth() / 2));
         inputWindow.setY((viewport.getWorldHeight() / 2) - (inputWindow.getHeight() / 2));
 
+        //poll for keyboard input
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
 
-                //enter
+                //player pressed enter
                 if (keycode == 66) {
                     //player has pressed enter
                     dispose();
                     game.setScreen(new LeaderboardScreen(game, playerName, finalScore));
                 }
 
-                //backspace
+                //player pressed backspace
+                //only proceed if the length of the string is >0
                 if (keycode == 67 && playerName.length() > 0) {
                     playerName = playerName.substring(0, playerName.length() - 1);
                 }
@@ -83,6 +96,7 @@ public class GetPlayerNameScreen implements Screen {
                     playerName += Input.Keys.toString(keycode);
                 }
 
+                //update the visible name every time a key is pressed
                 nameTable.clear();
                 nameTable.add(new Label(playerName, game.skin,"interaction")).padBottom(5);
                 nameTable.row();

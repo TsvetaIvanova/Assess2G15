@@ -16,6 +16,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
+/**
+ * //NEW//-TEAM15-IMPLEMENTATION: class added in version 1.1
+ * This class defines the screen which shows the leaderboard,
+ * using the Leaderboard class which actually handles the .csv file
+ */
 public class LeaderboardScreen implements Screen {
 
     private HustleGame game;
@@ -23,6 +28,12 @@ public class LeaderboardScreen implements Screen {
     Viewport viewport;
     OrthographicCamera camera;
 
+    /**
+     * Constructor - creates the LeaderboardScreen and takes over the window and input controller
+     * @param game the current game instance
+     * @param playerName the player's name
+     * @param finalScore the player's final score
+     */
     public LeaderboardScreen (final HustleGame game, String playerName, float finalScore) {
         this.game = game;
         leaderboardStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
@@ -41,13 +52,14 @@ public class LeaderboardScreen implements Screen {
         leaderboardWindow.add(leaderboardTable);
 
         //////////////////////// ACTUAL LEADERBOARD LOGIC /////////////////////
+
+        //create an instance of the leaderboard
         Leaderboard leaderboard = new Leaderboard();
 
-        //get player name
-        //String playerName = System.getProperty("user.name");
-
+        //update the leaderboard with the player's name and score if it fits into the top 10
         leaderboard.updateLeaderboard(playerName, finalScore);
 
+        //add all leaderboard entries to a table for display
         ArrayList<Leaderboard.LeaderboardEntry> entries = leaderboard.parseLeaderboard();
         for (Leaderboard.LeaderboardEntry entry : entries) {
             leaderboardTable.add(new Label(entry.name, game.skin,"interaction")).padBottom(5);

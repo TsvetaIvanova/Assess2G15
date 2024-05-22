@@ -2,20 +2,31 @@ package com.skloch.domain;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.skloch.game.Leaderboard;
-import java.util.ArrayList;
 
+/**
+ * //NEW//-TEAM15-IMPLEMENTATION: class added in version 1.1
+ * This class helps abstract some of the logic from the Leaderboard class
+ * Specifically, reading in leaderboard.csv and trying to add to the leaderboard
+ */
 public class LeaderboardTestsHelper {
 
+    //get a reference to leaderboard.csv from the assets folder
     public static FileHandle leaderboardFileReference = Gdx.files.local("../assets/leaderboard.csv");
-    //public static Leaderboard leaderboardInstance = new Leaderboard();
 
+    /**
+     * Returns the leaderboard file reference
+     * @return the leaderboard file reference
+     */
     public static FileHandle getLeaderboardFileReference() {
-        //System.out.println(Gdx.files.getLocalStoragePath());
-        //System.out.println("hello");
         return leaderboardFileReference;
     }
 
+    /**
+     * Mocks parsing the CSV file, abstracting away the ArrayList implementation
+     * and simply counting the number of entries in the leaderboard
+     * Used to test if the length of the leaderboard is valid.
+     * @return the number of entries in the leaderboard
+     */
     public static int mockParsingLeaderboard() {
         int count = 0;
         String fileContents = leaderboardFileReference.readString();
@@ -32,11 +43,16 @@ public class LeaderboardTestsHelper {
             }
 
             count++;
+
         }
 
         return count;
     }
 
+    /**
+     * Mocks adding a new entry to the leaderboard, abstracting away the ArrayList implementation
+     * @return true if a score would be added to the leaderboard
+     */
     public static boolean mockAddingToLeaderboard(int inputScore) {
 
         boolean gettingAdded = false;
@@ -55,7 +71,5 @@ public class LeaderboardTestsHelper {
 
         return gettingAdded;
     }
-
-
 
 }

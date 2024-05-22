@@ -5,14 +5,29 @@ import com.badlogic.gdx.files.FileHandle;
 
 import java.util.ArrayList;
 
+/**
+ * //NEW//-TEAM15-IMPLEMENTATION: class added in version 1.1
+ * This class handles the leaderboard.csv file and manages
+ * an internal ArrayList representation of the leaderboard
+ * All display / usage of these methods is done in LeaderboardScreen.java
+ */
 //purely handles leaderboard / file handling logic
-//display is done in GameOverClass
 public class Leaderboard {
 
+    /**
+     * //NEW//-TEAM15-IMPLEMENTATION: class added in version 1.1
+     * Internal class to represent the (name,score) values in each
+     * row of a leaderboard entry
+     */
     static public class LeaderboardEntry {
         String name;
         float score;
 
+        /**
+         * Constructor - create an instance of a LeaderboardEntry
+         * @param name this entry's name
+         * @param score this user's score
+         */
         public LeaderboardEntry(String name, float score) {
             this.name = name;
             this.score = score;
@@ -21,13 +36,22 @@ public class Leaderboard {
 
     FileHandle leaderboardFile;
 
-    public Leaderboard() {
+    /**
+     * Constructor - create an instance of a Leaderboard
+     * Finds the leaderboard.csv file in the assets folder
+     * Provides a console log if not found
+     */
+    public Leaderboard(){
         leaderboardFile = Gdx.files.local("leaderboard.csv");
         if (!leaderboardFile.exists()) {
-            System.out.println("file doesn't exist");
+            System.out.println("Leaderboard file not found");
         }
     }
 
+    /**
+     * Parses the leaderboard.csv file and converts to an internal ArrayList representation
+     * @return An ArrayList of LeaderboardEntry
+     */
     public ArrayList<LeaderboardEntry> parseLeaderboard() {
         //read leaderboard.csv and generate an ArrayList of LeaderboardEntry
         ArrayList<LeaderboardEntry> list = new ArrayList<LeaderboardEntry>();
@@ -52,6 +76,12 @@ public class Leaderboard {
         return list;
     }
 
+    /**
+     * Given a name and a score, updates the leaderboard.csv file if necessary
+     * @param name the player's name
+     * @param finalScore the player's final score
+     * @return boolean - true if the leaderboard was updated
+     */
     public boolean updateLeaderboard(String name, float finalScore) {
         //if the new score is in the top 10, update leaderboard.csv and return true
         //else return false
