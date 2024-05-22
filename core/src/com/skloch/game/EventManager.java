@@ -381,8 +381,7 @@ public class EventManager {
             secondsSlept = (((60*8) + 1440) - game.getSeconds());
         }
         int hoursSlept = Math.round(secondsSlept / 60f);
-
-        RunnableAction setTextAction = new RunnableAction();
+    RunnableAction setTextAction = new RunnableAction();
         setTextAction.setRunnable(new Runnable() {
             @Override
             public void run() {

@@ -821,7 +821,8 @@ public class GameScreen implements Screen {
         } else if (daysLeft == 1) {
             return "Your exam is tomorrow! I hope you've been studying!";
         } else {
-            return String.format("You have %d days left until your exam!");
+            return String.format("You have %d days left until your exam!", daysLeft);
+
         }
     }
 
