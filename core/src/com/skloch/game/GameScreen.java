@@ -286,8 +286,8 @@ public class GameScreen implements Screen {
             // Display a little good morning message
             dialogueBox.show();
             dialogueBox.setText(getWakeUpMessage());
+            feedbackMessageManager = new FeedbackMessageManager(game.skin, uiStage);
         }
-        feedbackMessageManager = new FeedbackMessageManager(game.skin, uiStage);
     }
 
     @Override

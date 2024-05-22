@@ -22,9 +22,7 @@ public class IntroductionTests {
 
         MenuScreen menu = new MenuScreen(game);
 
-        String expectedText = "Welcome to Heslington! You are a student at the university of York and your first big exam is fast approaching, but you haven't studied yet at all! Over the next 7 days you will need to make sure you study at least once per day, eat breakfast lunch and dinner, complete one recreational activity per day, and get enough sleep.\n" +
-                "You can study in the Computer Science building, eat in the Ron Cooke Hub, have fun in the Piazza, and sleep in your accomodation building.\n" +
-                "Good luck with your exam!";
+        String expectedText = "Welcome to Heslington! You are a student at the university of York and your first big exam is fast approaching, but you haven't studied yet at all!\n\nOver the next 7 days you will need to manage studying, eating, sleeping and relaxing.\n\nYou can study in the Computer Science building, eat in the Ron Cooke Hub, meet friends in the Piazza, and sleep in your accomodation building.\n\nGood luck with your exam!\n\nWASD or Arrow Keys to Move\nE to Interact\nEsc to Pause";
 
         //Remove line seperators from the tutorial text
         String tutorialText = menu.game.tutorialText.replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
