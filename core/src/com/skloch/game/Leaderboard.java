@@ -42,7 +42,7 @@ public class Leaderboard {
      * Provides a console log if not found
      */
     public Leaderboard(){
-        leaderboardFile = Gdx.files.local("leaderboard.csv");
+        leaderboardFile = Gdx.files.internal("leaderboard.csv");
         if (!leaderboardFile.exists()) {
             System.out.println("Leaderboard file not found");
         }

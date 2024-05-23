@@ -11,7 +11,7 @@ import com.badlogic.gdx.files.FileHandle;
 public class LeaderboardTestsHelper {
 
     //get a reference to leaderboard.csv from the assets folder
-    public static FileHandle leaderboardFileReference = Gdx.files.local("../assets/leaderboard.csv");
+    public static FileHandle leaderboardFileReference = Gdx.files.internal("../assets/leaderboard.csv");
 
     /**
      * Returns the leaderboard file reference
