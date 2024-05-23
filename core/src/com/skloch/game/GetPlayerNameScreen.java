@@ -77,7 +77,7 @@ public class GetPlayerNameScreen implements Screen {
             public boolean keyDown(int keycode) {
 
                 //player pressed enter
-                if (keycode == 66) {
+                if (keycode == 66 && playerName.length() > 0) {
                     //player has pressed enter
                     dispose();
                     game.setScreen(new LeaderboardScreen(game, playerName, finalScore));
