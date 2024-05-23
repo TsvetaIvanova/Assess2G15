@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v4.3.2
       with:
         name: HesHus-{{matrix.os}}.jar
-        path: tests/build/tmp/test
+        path: 
 
     - name: Upload Jacoco Test Report
       uses: actions/upload-artifact@v4.3.2
@@ -46,11 +46,11 @@ jobs:
         #name: jacoco-coverage-report-${{matrix.os}}
         #path: tests/build/reports/jacoco/test/html/index.html
 
-    #- name: Upload Checkstyle Report
-    #  causes missing path syntax error
-     # uses: actions/upload-artifact@v4.3.2
-     # with:
-     # name: checkstyle-report
+    - name: Upload Checkstyle Report
+      uses: actions/upload-artifact@v4.3.2
+      with:
+        name: checkstyle-report-${{matrix.os}}
+        path: tests/build/reports/checkstyle/main.html
     
     
 
