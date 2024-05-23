@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v4.3.2
       with:
         name: HesHus-{{matrix.os}}.jar
-        path: tests/build/generated/sources/annotationProcessor/java/test-{{matrix.os}}.jar
+        path: tests/build/tmp/test
 
     - name: Upload Jacoco Test Report
       uses: actions/upload-artifact@v4.3.2
